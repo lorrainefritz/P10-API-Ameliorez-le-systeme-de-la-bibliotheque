@@ -27,12 +27,12 @@ public class bookSlimWithLibraryAndStockController {
     private final BookService bookService;
     private final LibraryService libraryService;
 
-    @GetMapping(value="bookSlims")
+    @GetMapping(value="/books")
     public ResponseEntity <List<BookSlimWithLibraryAndStockDto>> bookSlimsList(){
         log.info("HTTP GET request received at /bookSlims with bookSlimsList");
         return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findAllBooks()), HttpStatus.OK);
     }
-    @PostMapping(value="bookSlims")
+    @PostMapping(value="/books")
     public ResponseEntity<BookSlimWithLibraryAndStockDto>saveABookSlim(@RequestBody BookSlimWithLibraryAndStockDto bookSlimDto){
         log.info("HTTP POST request received at /bookSlims with saveABookSlim");
         Stock stock = stockService.saveAStock(bookSlimWithLibraryAndStockDtoMapper.bookSlimWithLibraryAndStockDtoToStock(bookSlimDto));
@@ -43,7 +43,7 @@ public class bookSlimWithLibraryAndStockController {
         bookService.saveABook(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookSlimDto);
     }
-    @DeleteMapping(value="bookSlims/delete/{id}")
+    @DeleteMapping(value="/books/delete/{id}")
     public ResponseEntity deleteABookSlim(@PathVariable Integer id){
         log.info("HTTP DELETE request received at /bookSlims/"+ id +" with deleteABookSlim");
         Book book = bookService.getABookById(id);

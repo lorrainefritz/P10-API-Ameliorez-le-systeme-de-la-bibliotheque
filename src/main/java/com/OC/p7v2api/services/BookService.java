@@ -20,7 +20,6 @@ import java.util.List;
 @Log4j2
 public class BookService {
     private final BookRepository bookRepository;
-    private final StockRepository stockRepository;
 
     public List<Book> findAllBooks(){
         log.info("in BookService in findAllBooks method");
@@ -48,7 +47,7 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Book addImageCoverToBook(Book book, MultipartFile image) {
+/*    public Book addImageCoverToBook(Book book, MultipartFile image) {
         log.info("in BookService in addImageCoverToBook method");
         try {
             log.info("in BookService in addImageCoverToBook method in try catch");
@@ -57,7 +56,7 @@ public class BookService {
             e.printStackTrace();
         }
         return bookRepository.save(book);
-    }
+    }*/
 
     public void deleteABook(Book book) {
         log.info("in BookService in deleteABook method");

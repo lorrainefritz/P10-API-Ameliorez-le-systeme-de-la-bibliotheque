@@ -60,7 +60,7 @@ public class Book {
     @Column(name="CREATION_DATE")
     private String creationDate;
 
-    @Lob
+
     @Column (name = "COVER", length= Integer.MAX_VALUE, nullable= true)
     private String cover;
 

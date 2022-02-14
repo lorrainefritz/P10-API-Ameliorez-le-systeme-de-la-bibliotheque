@@ -9,7 +9,9 @@ import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,15 +22,12 @@ public class BookController {
 
     private final BookService bookService;
 
-    @GetMapping(value ="/books")
-    public List<Book> findAllBooks() {
-        log.info("HTTP GET request received at /books with findAllBooks");
-        return bookService.findAllBooks();
-    }
 
-    @GetMapping(value = "/books/{id}")
-    public Book getABook(@PathVariable(value = "id") Integer id) {
+   /* @GetMapping(value = "/books/get/{id}")
+    public ResponseEntity getABook(@PathVariable Integer id) {
         log.info("HTTP GET request received at /books/"+id+" with getABook");
-        return bookService.getABookById(id);
-    }
+       return new ResponseEntity(bookService.getABookById(id), HttpStatus.OK);
+       }
+*/
+
 }
