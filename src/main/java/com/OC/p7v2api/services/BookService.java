@@ -63,6 +63,12 @@ public class BookService {
         bookRepository.delete(book);
     }
 
+    public List<Book> findBooksWithKeyword(String keyword) {
+        log.info("in BookService in findBooksWithKeyword method  with keyword : " + keyword);
+        return bookRepository.findByTitleContaining(keyword);
+        /*return bookRepository.findBooksWithKeyword(keyword);*/
+    }
+
   /*  public void giveBackABook(Book book) {
         logger.info("in BookService in giveBackABook method");
         Stock stock = book.getStock();

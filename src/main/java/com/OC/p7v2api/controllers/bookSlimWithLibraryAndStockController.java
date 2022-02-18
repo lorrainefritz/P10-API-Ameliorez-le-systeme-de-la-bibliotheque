@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -27,13 +28,38 @@ public class bookSlimWithLibraryAndStockController {
     private final BookService bookService;
     private final LibraryService libraryService;
 
-    @GetMapping(value="/books")
-    public ResponseEntity <List<BookSlimWithLibraryAndStockDto>> bookSlimsList(){
+    @GetMapping(value = "/books")
+    public ResponseEntity<List<BookSlimWithLibraryAndStockDto>> bookSlimsList() {
         log.info("HTTP GET request received at /bookSlims with bookSlimsList");
         return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findAllBooks()), HttpStatus.OK);
     }
-    @PostMapping(value="/books")
-    public ResponseEntity<BookSlimWithLibraryAndStockDto>saveABookSlim(@RequestBody BookSlimWithLibraryAndStockDto bookSlimDto){
+@Transactional
+    @GetMapping(value = "/books/search")
+    public ResponseEntity booksSlimsListWithAKeyword(@RequestParam(value="keyword") String keyword) {
+        log.info("HTTP GET request received at /bookSlims with keyword : " + keyword + " with searchForABooksSlimsListWithAKeyword");
+        if (keyword == null) {
+            return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findAllBooks()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findBooksWithKeyword(keyword)), HttpStatus.OK);
+        }
+    }
+
+
+
+
+    /*@GetMapping(value = "/books/{keyword}")
+    public ResponseEntity booksSlimsListWithAKeyword(@PathVariable String keyword) {
+        log.info("HTTP GET request received at /bookSlims with keyword : " + keyword + " with searchForABooksSlimsListWithAKeyword");
+        if (keyword == null) {
+            return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findAllBooks()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findBooksWithKeyword(keyword)), HttpStatus.OK);
+        }
+    }*/
+
+
+    @PostMapping(value = "/books")
+    public ResponseEntity<BookSlimWithLibraryAndStockDto> saveABookSlim(@RequestBody BookSlimWithLibraryAndStockDto bookSlimDto) {
         log.info("HTTP POST request received at /bookSlims with saveABookSlim");
         Stock stock = stockService.saveAStock(bookSlimWithLibraryAndStockDtoMapper.bookSlimWithLibraryAndStockDtoToStock(bookSlimDto));
         Book book = bookService.saveABook(bookSlimWithLibraryAndStockDtoMapper.bookSlimWithLibraryAndStockDtoToBook(bookSlimDto));
@@ -43,9 +69,10 @@ public class bookSlimWithLibraryAndStockController {
         bookService.saveABook(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookSlimDto);
     }
-    @DeleteMapping(value="/books/delete/{id}")
-    public ResponseEntity deleteABookSlim(@PathVariable Integer id){
-        log.info("HTTP DELETE request received at /bookSlims/"+ id +" with deleteABookSlim");
+
+    @DeleteMapping(value = "/books/delete/{id}")
+    public ResponseEntity deleteABookSlim(@PathVariable Integer id) {
+        log.info("HTTP DELETE request received at /bookSlims/" + id + " with deleteABookSlim");
         Book book = bookService.getABookById(id);
         Stock stock = book.getStock();
         stockService.deleteAStock(stock);
@@ -53,5 +80,6 @@ public class bookSlimWithLibraryAndStockController {
         bookService.deleteABook(book);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
 
 }
