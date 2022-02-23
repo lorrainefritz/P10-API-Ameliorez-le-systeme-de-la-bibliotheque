@@ -1,19 +1,12 @@
 package com.OC.p7v2api.services;
 
 import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Stock;
 import com.OC.p7v2api.repositories.BookRepository;
-import com.OC.p7v2api.repositories.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
@@ -65,8 +58,8 @@ public class BookService {
 
     public List<Book> findBooksWithKeyword(String keyword) {
         log.info("in BookService in findBooksWithKeyword method  with keyword : " + keyword);
-        return bookRepository.findByTitleContaining(keyword);
-        /*return bookRepository.findBooksWithKeyword(keyword);*/
+      /*  return bookRepository.findByTitleContaining(keyword)*/;
+        return bookRepository.findBooksByKeyword(keyword);
     }
 
   /*  public void giveBackABook(Book book) {

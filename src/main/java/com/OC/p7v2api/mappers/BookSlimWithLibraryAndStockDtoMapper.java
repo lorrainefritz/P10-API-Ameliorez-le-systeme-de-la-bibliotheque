@@ -17,7 +17,7 @@ public interface BookSlimWithLibraryAndStockDtoMapper {
     @Mapping(source = "book.publisher",target = "publisher")
     @Mapping(source = "book.type",target = "type")
     @Mapping(source = "book.summary",target = "summary")
-    @Mapping(source = "stock.totalOfCopies", target = "totalOfCopies")
+    @Mapping(source = "stock.numberOfCopiesAvailable", target = "numberOfCopiesAvailable")
     @Mapping(source = "library.name",target = "libraryName")
     BookSlimWithLibraryAndStockDto bookStockLibraryToBookSlimWithLibraryAndStockDto(Book book);
     List<BookSlimWithLibraryAndStockDto> booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(List<Book>books);

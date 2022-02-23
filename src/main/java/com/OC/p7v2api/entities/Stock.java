@@ -18,25 +18,25 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class Stock {
     @Id
-    @Column(name="ID")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "STOCK_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="NUMBER_AVAILABLE")
+    @Column(name = "NUMBER_AVAILABLE")
     private int numberOfCopiesAvailable;
 
-    @Column(name="NUMBER_OUT")
+    @Column(name = "NUMBER_OUT")
     private int numberOfCopiesOut;
 
-    @Column(name="TOTAL_COPIES")
-    @Min(value=0, message="doit ête compris entre 1 et 10")
-    @Max(value=10, message="doit ête compris entre 1 et 10")
-    @NotNull(message="Ce champ ne doit pas être vide")
+    @Column(name = "TOTAL_COPIES")
+    @Min(value = 0, message = "doit ête compris entre 1 et 10")
+    @Max(value = 10, message = "doit ête compris entre 1 et 10")
+    @NotNull(message = "Ce champ ne doit pas être vide")
     private int totalOfCopies;
-
-    @Column(name="BOOK_IS_AVAILABLE")
+    @Column(name = "BOOK_IS_AVAILABLE")
     private boolean bookIsAvailable;
 
-
+    @OneToOne(mappedBy = "stock")
+    private Book book;
 
 }

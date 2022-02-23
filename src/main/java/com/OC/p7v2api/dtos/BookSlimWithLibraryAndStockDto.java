@@ -16,7 +16,7 @@ public class BookSlimWithLibraryAndStockDto {
     private String publisher;
     private String type;
     private String summary;
-    private int totalOfCopies;
+    private int numberOfCopiesAvailable;
     private String libraryName;
 
 }

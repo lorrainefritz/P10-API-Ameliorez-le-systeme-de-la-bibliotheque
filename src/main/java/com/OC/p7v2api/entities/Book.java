@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Table(name = "BOOK")
 public class Book {
     @Id
-    @Column(name="ID")
+    @Column(name="BOOK_ID")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
@@ -60,20 +60,22 @@ public class Book {
     @Column(name="CREATION_DATE")
     private String creationDate;
 
-
-    @Column (name = "COVER", length= Integer.MAX_VALUE, nullable= true)
+    /*@Column (name = "COVER", length= Integer.MAX_VALUE, nullable= true)*/
+    @Column (name = "COVER")
     private String cover;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "library_ID")
+    @JoinColumn(name = "LIBRARY_ID",nullable = false)
     private Library library;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+/*    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "BOOK_STOCK",
             joinColumns = @JoinColumn(
                     name = "BOOKS_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn
-                    (name = "STOCKS_ID", referencedColumnName = "ID"))
+                    (name = "STOCKS_ID", referencedColumnName = "ID"))*/
+   @OneToOne
+   @JoinColumn(name = "STOCK_ID")
     private Stock stock;
 
 

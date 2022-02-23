@@ -8,13 +8,14 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Table(name = "LIBRARY")
 @Entity
 @NoArgsConstructor @Getter @Setter @AllArgsConstructor
 public class Library {
     @Id
-    @Column(name="ID")
+    @Column(name="LIBRARY_ID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
@@ -43,5 +44,6 @@ public class Library {
     @NotBlank(message="Ce champ ne doit pas être vide")
     private String openingTime;
 
-
+    @OneToMany (mappedBy="library")
+    private List<Book> books;
 }
