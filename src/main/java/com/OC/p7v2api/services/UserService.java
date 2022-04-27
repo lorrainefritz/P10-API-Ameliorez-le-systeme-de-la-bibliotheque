@@ -32,16 +32,14 @@ public class UserService implements UserDetailsService {
         return userRepository.getById(id);
     }
 
-/*
     public User findAUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("in UserService in findAUserByEmail method ");
-        User user = userRepository.findByEmail(username);
+        log.info("in UserService in findAUserByUsername method ");
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid email or Password");
         }
         return user;
     }
-*/
 
     public void deleteAUser(Integer id) {
         log.info("in UserService in deleteAUser method");
