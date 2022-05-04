@@ -51,30 +51,56 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         return authenticationManager.authenticate(authenticationToken);
     }
 
+
+/*
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         log.info("in CustomAuthenticationFilter in successfulAuthentication");
         User user = (User) authentication.getPrincipal();
         String access_token = createToken(request, user);
         Cookie cookie = createCookie(access_token);
-        /*ResponseCookie springCookie = createCookie(access_token);*/
         log.info("in CustomAuthentication in successfulAuthentication where created token is {} after creatingToken and creatingCookie and initialize it" , access_token);
-        /*response.setHeader(HttpHeaders.SET_COOKIE, springCookie.toString());*/
-        response.addCookie(cookie);
+       response.addCookie(cookie);
+        log.info("Cookies {}",response.getHeaderNames().toString());
     }
+*/
+
+
+
+
+
+
+   /* @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        log.info("in CustomAuthenticationFilter in successfulAuthentication");
+        User user = (User) authentication.getPrincipal();
+        String access_token = createToken(request, user);
+        *//* Cookie cookie = createCookie(access_token);*//*
+        ResponseCookie springCookie = createCookie(access_token);
+        log.info("in CustomAuthentication in successfulAuthentication where created token is {} after creatingToken and creatingCookie and initialize it" , access_token);
+        response.setHeader(HttpHeaders.SET_COOKIE, springCookie.toString());
+        *//*response.addHeader(HttpHeaders.SET_COOKIE, springCookie.toString());*//*
+        *//*response.addCookie(cookie);*//*
+        log.info("Cookies {}",response.getHeaderNames().toString());
+      *//*  super.successfulAuthentication(request,response,chain,authentication);
+        chain.doFilter(request,response);*//*
+        *//*String body = (access_token);
+        response.getWriter().write(body);
+        response.getWriter().flush();*//*
+    }*/
 
     private String createToken(HttpServletRequest request, User user) {
         log.info("in CustomAuthenticationFilter in createToken");
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes(StandardCharsets.UTF_8));
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // expires in 10 minutes
                 .withIssuer(request.getRequestURL().toString()).withClaim("role", user.getAuthorities()
                         .stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining())).sign(algorithm);
         log.info("in CustomAuthentication in createToken with token " + access_token);
         return access_token;
     }
-    private Cookie createCookie(String access_token) {
+    /*private Cookie createCookie(String access_token) {
         log.info("in CustomAuthenticationFilter in createCookie");
         Cookie cookie = new Cookie("jwtToken",access_token);
         cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
@@ -83,10 +109,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         cookie.setPath("/");
         log.info("in CustomAuthenticationFilter in createCookie after initializing it cookie name {} cookie domain {} cookie path {}", cookie.getName(), cookie.getDomain(),cookie.getPath() );
         return cookie;
-    }
+    }*/
 
 
-/*    private ResponseCookie createCookie(String access_token) {
+    private ResponseCookie createCookie(String access_token) {
         log.info("in CustomAuthenticationFilter in createCookie");
         ResponseCookie springCookie = ResponseCookie.from("jwtToken", access_token)
                 .httpOnly(true)
@@ -96,8 +122,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .build();
         log.info("in CustomAuthenticationFilter in createCookie after initializing it cookie name {} cookie domain {} cookie path {}" ,springCookie.getName(),springCookie.getDomain(),springCookie.getPath());
         return springCookie;
-        }
-        */
+    }
 
 
 }

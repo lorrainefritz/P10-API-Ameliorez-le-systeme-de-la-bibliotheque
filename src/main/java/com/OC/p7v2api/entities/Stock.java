@@ -39,4 +39,6 @@ public class Stock {
     @OneToOne(mappedBy = "stock")
     private Book book;
 
+
+
 }

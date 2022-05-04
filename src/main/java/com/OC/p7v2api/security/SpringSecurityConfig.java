@@ -45,11 +45,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
        //A CHANGER EN PHASE II !!
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
-        /*httpSecurity.authorizeRequests().antMatchers("/login").permitAll();*/
-        /*httpSecurity.authorizeRequests().antMatchers( "/books", "/books/search", "/libraries").permitAll();*/
+        /*httpSecurity.authorizeRequests().anyRequest().permitAll();*/
+        httpSecurity.authorizeRequests().antMatchers("/login").permitAll();
+        httpSecurity.authorizeRequests().antMatchers( "/books", "/books/search", "/libraries").permitAll();
         /*httpSecurity.authorizeRequests().antMatchers("/users/account").authenticated();*/
-        httpSecurity.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+       /* httpSecurity.addFilter(new UserAuthentication(authenticationManagerBean()));*/
+        /*httpSecurity.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));*/
     }
 
 

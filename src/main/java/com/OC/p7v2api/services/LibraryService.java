@@ -21,7 +21,7 @@ public class LibraryService {
     private final LibraryRepository libraryRepository;
 
     public List<Library> findAllLibraries(){
-        log.info("in LibraryService in getAllLibrary method");
+        log.info("in LibraryService in findAllLibrary method");
         return libraryRepository.findAll();
     }
 

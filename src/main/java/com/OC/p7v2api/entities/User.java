@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -31,7 +32,7 @@ public class User  {
     @NotBlank(message = "Ce champ ne doit pas être vide")
     private String username;
 
-   /* @Column(name = "FIRST_NAME")
+    @Column(name = "FIRST_NAME")
     @Size(max = 65, message = "65 charactères maximum")
     @NotBlank(message = "Ce champ ne doit pas être vide")
     private String firstName;
@@ -55,7 +56,6 @@ public class User  {
     @Size(max = 65, message = "65 charactères maximum")
     @NotBlank(message = "Ce champ ne doit pas être vide")
     private String phone;
-*/
     @Column(name = "PASSWORD")
     @Size(max = 65, message = "65 charactères maximum")
     @NotBlank(message = "Ce champ ne doit pas être vide")
@@ -65,4 +65,6 @@ public class User  {
     @JoinColumn(columnDefinition = "ID", nullable = false)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Borrow> borrows;
 }
