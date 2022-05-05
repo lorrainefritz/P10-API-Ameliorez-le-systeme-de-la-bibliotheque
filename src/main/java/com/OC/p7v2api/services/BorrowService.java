@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -34,4 +36,19 @@ public class BorrowService {
         borrowRepository.deleteById(id);
     }
 
+    public Borrow extendABorrow(Integer borrowId) {
+        log.info("in BorrowService in extendABorrow method where borrow id is {}", borrowId);
+        Borrow borrow = findABorrowById(borrowId);
+        log.info("in BorrowService in extendABorrow method where borrow book is {} and return date is {} before extension", borrow.getBook().getTitle(), borrow.getReturnDate());
+        Date returnDate = borrow.getReturnDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(returnDate);
+        cal.add(Calendar.DATE, 28);
+        Date date = (Date) cal.getTime();
+        borrow.setReturnDate(date);
+        borrow.setAlreadyExtended(true);
+        saveABorrow(borrow);
+        log.info("in BorrowService in extendABorrow method where borrow book is {} and return date is {} after extension", borrow.getBook().getTitle(), borrow.getReturnDate());
+        return borrow;
+    }
 }
