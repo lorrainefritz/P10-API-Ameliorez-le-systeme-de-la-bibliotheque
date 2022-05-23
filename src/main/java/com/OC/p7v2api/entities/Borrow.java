@@ -33,7 +33,7 @@ public class Borrow {
     private boolean alreadyExtended;
 
     @Column(name="IS_OUTDATED")
-    private boolean IsOutdated;
+    private boolean outdated;
 
     @ManyToOne
     @JoinColumn(name = "user_user_id")

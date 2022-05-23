@@ -16,9 +16,13 @@ public class BorrowDto {
     private Date startDate;
     private Date returnDate;
     private String username;
+    private String lastName;
+    private String firstName;
     private boolean alreadyExtended;
-    private boolean isOutdated;
+    private boolean outdated;
     private String bookTitle;
     private String bookAuthor;
+    private String libraryName;
+    private String openingTime;
 
 }
