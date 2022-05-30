@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -49,32 +50,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("in SpringSecurityConfig in configure (HttpSecurity)");
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //A CHANGER EN PHASE II !!
-        /*httpSecurity.authorizeRequests().anyRequest().permitAll();*/
+        httpSecurity.authorizeRequests().antMatchers("/resources/**","/static/**","/css/**","/images/**","/logos/**").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/login").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/books", "/books/search", "/libraries","/allBorrows").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/users/account","/users/account/borrows").authenticated();
         httpSecurity.addFilterBefore(new CustomAuthenticationFilter(userService,tokenUtil), UsernamePasswordAuthenticationFilter.class);
-        /* httpSecurity.addFilter(new UserAuthentication(authenticationManagerBean()));*/
-        /*httpSecurity.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));*/
     }
-
-
-
-
-
-  /*  @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("login");
-        httpSecurity.csrf().disable();
-        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.authorizeRequests().antMatchers("/login").permitAll();
-        httpSecurity.authorizeRequests().antMatchers( "/books", "/books/search", "/libraries").permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/myAccount").authenticated();
-        // Add a filter to validate the tokens with every request
-        httpSecurity.addFilter(customAuthenticationFilter);
-    }*/
 
 
 }
