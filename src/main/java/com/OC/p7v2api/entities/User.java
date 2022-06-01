@@ -42,11 +42,6 @@ public class User  {
     @NotBlank(message = "Ce champ ne doit pas être vide")
     private String lastName;
 
-    @Column(name = "EMAIL")
-    @Size(max = 65, message = "65 charactères maximum")
-    @NotBlank(message = "Ce champ ne doit pas être vide")
-    private String email;
-
     @Column(name = "ADDRESS")
     @Size(max = 65, message = "65 charactères maximum")
     @NotBlank(message = "Ce champ ne doit pas être vide")

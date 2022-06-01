@@ -31,13 +31,7 @@ public class StockService {
     public Stock saveAStock (Stock stock) {
         log.info("in StockService in saveStock method");
 
-    /*    if(stock.getNumberOfCopiesAvailable()>0){
-            log.info("in StockService in saveAStock method in if copiesAvailable>0");
-            stock.setBookIsAvailable(true);
-        }else if(stock.getNumberOfCopiesAvailable()==0) {
-            log.info("in StockService in saveAStock method in if copiesAvailable=0");
-            stock.setBookIsAvailable(false);
-        }*/
+
         return stockRepository.save(stock);
     }
 

@@ -14,7 +14,6 @@ public interface UserDtoMapper {
     @Mapping(source = "user.username",target = "username")
     @Mapping(source = "user.firstName",target = "firstName")
     @Mapping(source = "user.lastName",target = "lastName")
-    @Mapping(source = "user.email",target = "email")
     @Mapping(source = "user.address",target = "address")
     @Mapping(source = "user.phone",target = "phone")
     UserDto userToUserDtoMapper(User user);

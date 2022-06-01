@@ -23,11 +23,4 @@ public class BookController {
     private final BookService bookService;
 
 
-   /* @GetMapping(value = "/books/get/{id}")
-    public ResponseEntity getABook(@PathVariable Integer id) {
-        log.info("HTTP GET request received at /books/"+id+" with getABook");
-       return new ResponseEntity(bookService.getABookById(id), HttpStatus.OK);
-       }
-*/
-
 }

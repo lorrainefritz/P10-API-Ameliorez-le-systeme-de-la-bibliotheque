@@ -50,8 +50,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends OncePerRequestFilter {
     private final UserService userService;
     private final TokenUtil tokenUtil;
-   /* private final AuthenticationManager authenticationManager;
-    private final UserAuthentication userAuthentication;*/
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

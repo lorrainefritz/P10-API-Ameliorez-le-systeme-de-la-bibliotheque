@@ -45,10 +45,6 @@ public class UserService implements UserDetailsService {
         log.info("in UserService in deleteAUser method");
         User user = userRepository.getById(id);
         user.setRole(null);
-       /* List <Borrow> borrows = (List<Borrow>)libraryUser.getBorrows();
-        for (Borrow borrow : borrows) {
-            borrowService.deleteBorrow(borrow);
-        }*/
         saveAUser(user);
         userRepository.delete(user);;
     }

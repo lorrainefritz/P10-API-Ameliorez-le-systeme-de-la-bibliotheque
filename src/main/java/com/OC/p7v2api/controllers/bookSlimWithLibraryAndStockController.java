@@ -45,19 +45,6 @@ public class bookSlimWithLibraryAndStockController {
     }
 
 
-
-
-    /*@GetMapping(value = "/books/{keyword}")
-    public ResponseEntity booksSlimsListWithAKeyword(@PathVariable String keyword) {
-        log.info("HTTP GET request received at /bookSlims with keyword : " + keyword + " with searchForABooksSlimsListWithAKeyword");
-        if (keyword == null) {
-            return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findAllBooks()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findBooksWithKeyword(keyword)), HttpStatus.OK);
-        }
-    }*/
-
-
     @PostMapping(value = "/books")
     public ResponseEntity<BookSlimWithLibraryAndStockDto> saveABookSlim(@RequestBody BookSlimWithLibraryAndStockDto bookSlimDto) {
         log.info("HTTP POST request received at /bookSlims with saveABookSlim");

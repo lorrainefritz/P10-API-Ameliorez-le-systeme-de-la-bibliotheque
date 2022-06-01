@@ -35,15 +35,6 @@ public class UserController {
     private final UserAuthentication userAuthentication;
     AuthenticationManager authenticationManager;
 
-/*    @PostMapping(value = "/login")
-    public ResponseEntity authenticate(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password, HttpServletResponse response) throws ServletException, IOException {
-        log.info("in UserController in AUTHENTICATE with username {}", username);
-        Authentication authentication = userAuthentication.attemptAuthentication(username,password);
-        String token = userAuthentication.successfulAuthentication(authentication);
-
-        return new ResponseEntity(token,HttpStatus.OK);
-
-    }*/
 
 
     @PostMapping(value = "/login")

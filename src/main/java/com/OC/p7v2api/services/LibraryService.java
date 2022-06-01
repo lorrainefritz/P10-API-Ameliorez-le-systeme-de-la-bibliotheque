@@ -29,10 +29,6 @@ public class LibraryService {
         log.info("in LibraryService in getALibraryById method");
         return libraryRepository.getById(id);
     }
-    /*public Library  getOneLibraryByName(String name) {
-        logger.info("in LibraryService in getOneLibraryByName method");
-        return libraryRepository.findByName(name);
-    }*/
 
     public Library saveALibrary(Library library) {
         log.info("in LibraryService in saveALibrary method");

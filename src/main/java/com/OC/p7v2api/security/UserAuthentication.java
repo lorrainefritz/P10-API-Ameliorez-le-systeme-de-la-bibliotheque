@@ -35,12 +35,6 @@ public class UserAuthentication {
     private final TokenUtil tokenUtil;
 
 
-  /*  public Authentication attemptAuthentication(String username, String password) throws AuthenticationException {
-        log.info("in TestAuthentication in attemptAuthentication with username {} and password is {}", username, password);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        return authenticationManager.authenticate(authenticationToken);
-    }*/
-
     public String successfulAuthentication(String username,String password) throws IOException, ServletException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -50,12 +44,5 @@ public class UserAuthentication {
         log.info("in CustomAuthentication in successfulAuthentication where created token is {} after creatingToken and creatingCookie and initialize it" , access_token);
         return access_token;
     }
-  /*  public String successfulAuthentication(Authentication authentication) throws IOException, ServletException {
-        log.info("in CustomAuthenticationFilter in successfulAuthentication");
-        User user = (User) authentication.getPrincipal();
-        String access_token = tokenUtil.createToken(user);
-        log.info("in CustomAuthentication in successfulAuthentication where created token is {} after creatingToken and creatingCookie and initialize it" , access_token);
-        return access_token;
-    }*/
 
 }
