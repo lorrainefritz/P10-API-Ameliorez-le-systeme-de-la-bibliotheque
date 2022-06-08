@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor @Getter @Setter @AllArgsConstructor
@@ -68,15 +69,10 @@ public class Book {
     @JoinColumn(name = "LIBRARY_ID",nullable = false)
     private Library library;
 
-/*    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "BOOK_STOCK",
-            joinColumns = @JoinColumn(
-                    name = "BOOKS_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn
-                    (name = "STOCKS_ID", referencedColumnName = "ID"))*/
    @OneToOne
    @JoinColumn(name = "STOCK_ID")
     private Stock stock;
 
-
+    @OneToMany (mappedBy="book")
+    private List<Reservation> reservations;
 }

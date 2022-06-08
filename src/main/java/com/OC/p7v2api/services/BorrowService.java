@@ -36,6 +36,11 @@ public class BorrowService {
         borrowRepository.deleteById(id);
     }
 
+    public List<Borrow>findBorrowsByBookId(Integer id){
+        log.info("in BorrowService in findBorrowsByBookId method");
+        return borrowRepository.findBorrowsByBookId(id);
+    }
+
     public Borrow extendABorrow(Integer borrowId) {
         log.info("in BorrowService in extendABorrow method where borrow id is {}", borrowId);
         Borrow borrow = findABorrowById(borrowId);
