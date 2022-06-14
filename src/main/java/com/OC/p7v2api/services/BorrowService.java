@@ -1,6 +1,8 @@
 package com.OC.p7v2api.services;
 
+import com.OC.p7v2api.entities.Book;
 import com.OC.p7v2api.entities.Borrow;
+import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.BorrowRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,6 +18,7 @@ import java.util.List;
 @Log4j2
 public class BorrowService {
     public final BorrowRepository borrowRepository;
+    public final BookService bookService;
 
     public List<Borrow> findAllBorrows(){
         log.info("in BorrowService in findAllBorrows method");
@@ -38,7 +41,13 @@ public class BorrowService {
 
     public List<Borrow>findBorrowsByBookId(Integer id){
         log.info("in BorrowService in findBorrowsByBookId method");
-        return borrowRepository.findBorrowsByBookId(id);
+        Book book = bookService.getABookById(id);
+        return borrowRepository.findByBook(book);
+    }
+
+    public List<Borrow>findBorrowsByBook(Book book){
+        log.info("in BorrowService in findBorrowsByBook method");
+        return borrowRepository.findByBook(book);
     }
 
     public Borrow extendABorrow(Integer borrowId) {
@@ -56,4 +65,14 @@ public class BorrowService {
         log.info("in BorrowService in extendABorrow method where borrow book is {} and return date is {} after extension", borrow.getBook().getTitle(), borrow.getReturnDate());
         return borrow;
     }
+
+    /*public List<Borrow> findBorrowsByUser(User user) {
+        log.info("in BorrowService in findBorrowsByUser method where user is {}", user.getLastName());
+        return  borrowRepository.findByUser(user);
+    }*/
+
+    /*public List<Borrow> findBorrowsByUserId(Integer userId) {
+        log.info("in BorrowService in findBorrowsByUser method");
+        return borrowRepository.findBorrowsByUserId(userId);
+    }*/
 }

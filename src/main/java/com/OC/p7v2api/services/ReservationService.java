@@ -1,5 +1,6 @@
 package com.OC.p7v2api.services;
 
+import com.OC.p7v2api.entities.Book;
 import com.OC.p7v2api.entities.Reservation;
 import com.OC.p7v2api.repositories.ReservationRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.List;
 @Log4j2
 public class ReservationService {
     private final ReservationRepository reservationRepository;
+    private final BookService bookService;
 
     public List<Reservation> findAllReservations(){
         log.info("in ReservationService in findAllReservations method");
@@ -34,5 +36,18 @@ public class ReservationService {
         log.info("in ReservationService in deleteAReservation method");
         reservationRepository.delete(reservation);
     }
+    public List<Reservation>findReservationsByBookId(Integer id){
+        log.info("in ReservationService in findReservationsByBookId method");
+        Book book = bookService.getABookById(id);
+        return reservationRepository.findReservationsByBook(book);
+    }
 
+    public List<Reservation>findReservationsByBook(Book book){
+        log.info("in ReservationService in findReservationsByBookId method");
+        return reservationRepository.findReservationsByBook(book);
+    }
+
+    public void deleteAReservationById(Integer reservationId) {
+        reservationRepository.deleteById(reservationId);
+    }
 }

@@ -21,7 +21,8 @@ public interface BorrowDtoMapper {
     @Mapping(source = "book.author",target = "bookAuthor")
     @Mapping(source = "book.library.name",target = "libraryName")
     @Mapping(source = "book.library.openingTime",target = "openingTime")
-    BorrowDto borrowToBorrowDtoMapper(Borrow borrow);
+
+    BorrowDto borrowToBorrowDto(Borrow borrow);
     List<BorrowDto> borrowToAllBorrowDto(List<Borrow> borrows);
 
 }

@@ -36,10 +36,11 @@ public class Borrow {
     private boolean outdated;
 
     @ManyToOne
-    @JoinColumn(name = "user_user_id")
+    @JoinColumn(name = "USER_ID")
+    /*@JoinColumn(name = "user_user_id")*/
     private User user;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 

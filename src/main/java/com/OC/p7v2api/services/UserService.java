@@ -1,5 +1,6 @@
 package com.OC.p7v2api.services;
 
+import com.OC.p7v2api.entities.Borrow;
 import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
     public User getAUserById(Integer id){
-        log.info("in UserService in findById method ");
+        log.info("in UserService in getAUserById method ");
         return userRepository.getById(id);
     }
 
@@ -70,4 +71,8 @@ public class UserService implements UserDetailsService {
         authority.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authority);
     }
+   /* public List<Borrow> findBorrowsByUserId(Integer userId) {
+        log.info("in UserService in method findBorrowsFromAUserId");
+        return userRepository.findBorrowsByUserId(userId);
+    }*/
 }

@@ -1,15 +1,18 @@
 package com.OC.p7v2api.mappers;
 
 import com.OC.p7v2api.dtos.BookSlimWithLibraryAndStockDto;
-import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Library;
-import com.OC.p7v2api.entities.Stock;
+import com.OC.p7v2api.dtos.ReservationDto;
+import com.OC.p7v2api.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")//,uses = {BorrowDtoMapper.class,ReservationDto.class}
 public interface BookSlimWithLibraryAndStockDtoMapper {
     @Mapping(source = "book.id",target = "id")
     @Mapping(source = "book.title",target = "title")
@@ -17,11 +20,18 @@ public interface BookSlimWithLibraryAndStockDtoMapper {
     @Mapping(source = "book.publisher",target = "publisher")
     @Mapping(source = "book.type",target = "type")
     @Mapping(source = "book.summary",target = "summary")
+    @Mapping(source="book.nearestReturnDate",target = "nearestReturnDate")
+    @Mapping(source ="book.numberOfReservation",target = "numberOfReservation")
+    @Mapping(source ="book.maxReservationListSize",target = "maxReservationListSize")
     @Mapping(source = "stock.numberOfCopiesAvailable", target = "numberOfCopiesAvailable")
     @Mapping(source = "library.name",target = "libraryName")
+
     BookSlimWithLibraryAndStockDto bookStockLibraryToBookSlimWithLibraryAndStockDto(Book book);
     List<BookSlimWithLibraryAndStockDto> booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(List<Book>books);
+    List<Book> booksStocksLibrariesDtoToAllBookSlimWithLibraryAndStock(List<BookSlimWithLibraryAndStockDto>books);
      Book bookSlimWithLibraryAndStockDtoToBook(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
     Stock bookSlimWithLibraryAndStockDtoToStock(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
     Library bookSlimWithLibraryAndStockDtoToLibrary(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
+
+
 }

@@ -28,11 +28,20 @@ public class Reservation {
     @Column(name="END_DATE")
     private Date endDate;
 
-    @OneToOne
+    private int reservationPosition;
+
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "BOOK_ID",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOOK_ID")
     private Book book;
+
+    public Reservation(Date startDate, Date endDate, User user, Book book) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.user = user;
+        this.book = book;
+    }
 }
