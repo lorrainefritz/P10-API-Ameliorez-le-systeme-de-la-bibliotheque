@@ -21,6 +21,7 @@ public class ReservationDto {
     private String username;
     private String lastName;
     private String firstName;
+    private int bookId;
     private String bookTitle;
     private String bookAuthor;
     private String libraryName;

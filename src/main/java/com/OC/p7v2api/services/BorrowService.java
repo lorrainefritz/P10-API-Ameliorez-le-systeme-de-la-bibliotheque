@@ -66,13 +66,5 @@ public class BorrowService {
         return borrow;
     }
 
-    /*public List<Borrow> findBorrowsByUser(User user) {
-        log.info("in BorrowService in findBorrowsByUser method where user is {}", user.getLastName());
-        return  borrowRepository.findByUser(user);
-    }*/
 
-    /*public List<Borrow> findBorrowsByUserId(Integer userId) {
-        log.info("in BorrowService in findBorrowsByUser method");
-        return borrowRepository.findBorrowsByUserId(userId);
-    }*/
 }

@@ -31,20 +31,5 @@ public class BookSlimWithLibraryAndStockDto {
     private int numberOfReservation;
     private int maxReservationListSize;
 
-    /*public void addBorrow(BorrowDto borrowDto) {
-        if (borrows == null) {
-            borrows = new ArrayList<>();
-        }
-
-        borrows.add(borrowDto);
-    }
-
-    public void addReservation(ReservationDto reservationDto) {
-        if (reservations == null) {
-            reservations = new ArrayList<>();
-
-        }
-        reservations.add(reservationDto);
-    }*/
 
 }

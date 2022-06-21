@@ -12,10 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -34,7 +30,7 @@ public class BookSlimWithLibraryAndStockController {
     @GetMapping(value = "/books")
     public ResponseEntity<List<BookSlimWithLibraryAndStockDto>> bookSlimsList() {
         log.info("HTTP GET request received at /bookSlims with bookSlimsList");
-        return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.findAllBooks()), HttpStatus.OK);
+        return new ResponseEntity<>(bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(bookService.getAscendingSortedBooksById()), HttpStatus.OK);
     }
 @Transactional
     @GetMapping(value = "/books/search")
@@ -80,44 +76,12 @@ public class BookSlimWithLibraryAndStockController {
     }
 
     @PostMapping(value = "books/reservation")
-    public void makeAReservation(@RequestParam Integer bookId,@RequestParam Integer userId){
+    public ResponseEntity<Object> makeAReservation(@RequestParam Integer bookId, @RequestParam Integer userId){
         log.info("HTTP POST request received at /books/reservation, where bookId is {} and userId is {}", bookId,userId);
-
-        Book book = bookService.getABookById(bookId);
-        User user = userService.getAUserById(userId);
-        Date startDate = Date.from(Instant.now());
-        Date endDate = Date.from(Instant.now().plusSeconds(172800));//48h
-        Reservation reservation = new Reservation();
-        reservation.setBook(book);
-        reservation.setUser(user);
-        reservation.setStartDate(startDate);
-        reservation.setEndDate(endDate);
-        reservation.setReservationPosition(book.getNumberOfReservation()+1);
-        reservationService.saveAReservation(reservation);
-        book.setNumberOfReservation(book.getNumberOfReservation()+1);
-        book.setNearestReturnDate(endDate);
-        bookService.saveABook(book);
-
-
+       reservationService.makeAReservation(bookId, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    /*private List<Book>  methode (List<BookSlimWithLibraryAndStockDto> booksDto){
-        List<Book> books = bookSlimWithLibraryAndStockDtoMapper.booksStocksLibrariesDtoToAllBookSlimWithLibraryAndStock(booksDto);
-        for (Book book : books) {
-            log.info("HTTP GET request received at /books with listOfBooksSlims where cookie isNotNull in for each");
-            log.info("in BookSlimController in setNumberOfBorrowsAndNearestDateOfReturn method with bookSlimBean {}", book.getTitle());
-            List<Borrow> listOfBorrowsForTheBook = borrowService.findBorrowsByBookId(book.getId());
-            List<Reservation> listOfReservationsForTheBook = reservationService.findReservationsByBookId(book.getId());
-            List<Date> returnDates = new ArrayList<>();
-            for (Borrow borrow : listOfBorrowsForTheBook) {
-                returnDates.add(borrow.getReturnDate());
-            }
-            Date latestDate = Collections.max(returnDates);
-            log.info("in BookService in setNumberOfBorrowsAndNearestDateOfReturn method with latestDate {}", latestDate);
-            book.setNearestDateOfReturn(latestDate);
-            log.info("in BookService in setNumberOfBorrowsAndNearestDateOfReturn method with listOfReservationsForTheBook {}", listOfBorrowsForTheBook.size());
-            book.setNumberOfBorrows(listOfReservationsForTheBook.size());
-    }*/
 
 
 }

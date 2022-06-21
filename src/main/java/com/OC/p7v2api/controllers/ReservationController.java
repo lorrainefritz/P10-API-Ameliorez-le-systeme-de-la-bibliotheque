@@ -1,8 +1,10 @@
 package com.OC.p7v2api.controllers;
 
 import com.OC.p7v2api.dtos.BookSlimWithLibraryAndStockDto;
+import com.OC.p7v2api.dtos.BorrowDto;
 import com.OC.p7v2api.dtos.ReservationDto;
 import com.OC.p7v2api.entities.Book;
+import com.OC.p7v2api.entities.Borrow;
 import com.OC.p7v2api.entities.Reservation;
 import com.OC.p7v2api.mappers.BookSlimWithLibraryAndStockDtoMapper;
 import com.OC.p7v2api.mappers.ReservationDtoMapper;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -40,7 +44,23 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDtoMapper.reservationsToAllReservationDto(reservationListForABook), HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "/allReservations")
+    public ResponseEntity<List<ReservationDto>> checkIfReservationsAreExpired() {
+        log.info("HTTP GET request received at /allReservations");
+        List<Reservation> reservations = reservationService.findAllReservations();
+        Date today = Date.from(Instant.now());
+        for (Reservation reservation : reservations) {
+            log.info("HTTP GET request received at /allReservations list");
+            Date endDate = reservation.getEndDate();
+            // SI les dates sont == retourne 0 si today>returnDate =-1
+            // today<returnDate = 1
+            if (today.compareTo(endDate) > 0) {
+                log.info("HTTP GET request received at /allReservations list when reservation isOutdated");
+                reservationService.deleteAReservationById(reservation.getId());
+            }
+        }
+        return new ResponseEntity<>(reservationDtoMapper.reservationsToAllReservationDto(reservations), HttpStatus.OK);
+    }
 
 
 }

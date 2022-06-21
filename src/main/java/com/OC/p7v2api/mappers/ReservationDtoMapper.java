@@ -22,6 +22,7 @@ public interface ReservationDtoMapper {
     @Mapping(source="user.username",target ="username")
     @Mapping(source="user.firstName",target ="firstName")
     @Mapping(source="user.lastName",target ="lastName")
+    @Mapping(source = "book.id",target = "bookId")
     @Mapping(source = "book.title",target = "bookTitle")
     @Mapping(source = "book.author",target = "bookAuthor")
     @Mapping(source = "book.library.name",target = "libraryName")

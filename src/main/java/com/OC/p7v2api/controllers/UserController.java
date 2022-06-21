@@ -16,6 +16,8 @@ import com.OC.p7v2api.services.ReservationService;
 import com.OC.p7v2api.token.TokenUtil;
 import com.OC.p7v2api.security.UserAuthentication;
 import com.OC.p7v2api.services.UserService;
+import com.OC.p7v2api.util.BorrowReturnDatesComparator;
+import com.OC.p7v2api.util.ReservationIdsComparator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -97,46 +101,54 @@ public class UserController {
     @PostMapping("/users/account/reservations/delete")
     public void deleteAReservation(@RequestParam Integer reservationId) {
         log.info("HTTP POST request received at /users/account/reservations/delete with borrowList where id is {} ", reservationId);
-        Reservation reservation = reservationService.getAReservationById(reservationId);
-        Reservation nextReservation = null;
-        Reservation firstReservation = null;
-        Book book = reservation.getBook();
-        List<Reservation> reservationListForTheCurrentBook = book.getReservations();
-        int positionOfTheCurrentReservationInListForTheCurrentBook = reservationListForTheCurrentBook.indexOf(reservation);
-        log.info("HTTP POST request received at /users/account/reservations/delete where reservationListForTheCurrentBook size is {} and positionOfTheCurrentReservationInListForTheCurrentBook is {}", reservationListForTheCurrentBook.size(), positionOfTheCurrentReservationInListForTheCurrentBook );
-        try {
-            log.info("HTTP POST request received at /users/account/reservations/delete in try catch");
+        reservationService.deleteAReservationById(reservationId);
+    }
 
-            firstReservation = reservationListForTheCurrentBook.get(0);
-            log.info("HTTP POST request received at /users/account/reservations/delete in try catch in  firstReservation initialize  where id is {} and startDate is {}", firstReservation.getId(), firstReservation.getStartDate());
-            nextReservation = reservationListForTheCurrentBook.get(positionOfTheCurrentReservationInListForTheCurrentBook+1);
-            log.info("HTTP POST request received at /users/account/reservations/delete in try catch in nextReservation initialize where id is{} and startDate {}", nextReservation.getId(), nextReservation.getStartDate());
-        } catch (Exception e) {
-            log.info("HTTP POST request received at /users/account/reservations/delete in previous and Or next reservations not found");
-        }
-        reservationListForTheCurrentBook.remove(positionOfTheCurrentReservationInListForTheCurrentBook);
-       reservationService.deleteAReservation(reservation);
-        book.setNumberOfReservation(book.getNumberOfReservation() - 1);
-        bookService.saveABook(book);
-
-        if (firstReservation != null ) {
-            log.info("HTTP POST request received at /users/account/reservations/delete in previous reservation is not null ");
-            book.setNearestReturnDate(firstReservation.getEndDate());
-            /*firstReservation.setReservationPosition(1);*/
-            reservationService.saveAReservation(firstReservation);
-            bookService.saveABook(book);
-        }
-        if (nextReservation != null && reservationListForTheCurrentBook.size()>1) {
-            log.info("HTTP POST request received at /users/account/reservations/delete in next reservation is not null");
-            for (Reservation currentReservation : reservationListForTheCurrentBook) {
-                log.info("HTTP POST request received at /users/account/reservations/delete in next reservation is not null for each reservation");
-             if(currentReservation.getReservationPosition()> positionOfTheCurrentReservationInListForTheCurrentBook){
-               currentReservation.setReservationPosition(currentReservation.getReservationPosition()-1);
-               reservationService.saveAReservation(currentReservation);
-             }
+    @Transactional
+    @GetMapping("/users/allReservationsToRetrieveFromLibrary")
+    public ResponseEntity<List<ReservationDto>> generateAreservationListToRetrieveFromLibrary() {
+        log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary");
+        List<Book> books = bookService.getAscendingSortedBooksById();
+        List<Reservation> reservationsToRetrieveFromLibrary = new ArrayList<>();
+        for (Book currentBook : books) {
+            log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary in for each book where currentBook title is {} ",currentBook.getTitle());
+            if (currentBook.getStock().getNumberOfCopiesAvailable() > 0 && currentBook.getNumberOfReservation() > 0) {
+                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary where the currentBook has > 0 numberOfCopiesAvailable AND > 0 for booktitle is {}", currentBook.getTitle());
+                List<Reservation> reservationsForTheCurrentBook = currentBook.getReservations();
+                if (checkIfReservationHasExpired(reservationsForTheCurrentBook.get(0)) == true) {
+                    log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary where the first reservation of the list has expired and will be delete. reservation id is {}",reservationsForTheCurrentBook.get(0).getId());
+                    reservationService.deleteAReservationById(reservationsForTheCurrentBook.get(0).getId());
+                    reservationsForTheCurrentBook = bookService.getAscendingSortedReservations(currentBook);
+                    log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary where the first reservation of the list was expired the new first reservation id is {}",reservationsForTheCurrentBook.get(0).getId());
+                }
+                //setting the Endate for the first reservation for this book to 48h after today
+                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary before setting the endDate of firstReservation");
+                Reservation firstReservation = reservationsForTheCurrentBook.get(0);
+                firstReservation.setEndDate(Date.from(Instant.now().plusSeconds(172800)));
+                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary after setting the endDate of firstReservation the endDate is {}",firstReservation.getEndDate());
+                // add to the reservationList to send an email to
+                reservationsToRetrieveFromLibrary.add(firstReservation);
+                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary reservationToRetrieveFromLibrary size being ", reservationsToRetrieveFromLibrary.size());
             }
         }
+        return new ResponseEntity<>(reservationDtoMapper.reservationsToAllReservationDto(reservationsToRetrieveFromLibrary), HttpStatus.OK);
+    }
+
+    private boolean checkIfReservationHasExpired(Reservation reservation) {
+        Date today = Date.from(Instant.now());
+        log.info("in reservationBatchProcessing in checkIfReservationHasExpired");
+        Date endDate = reservation.getEndDate();
+        // SI les dates sont == retourne 0 si today>returnDate =-1
+        // today<returnDate = 1
+        if (today.compareTo(endDate) > 0) {
+            log.info("in reservationBatchProcessing in checkIfReservationHasExpired where the date isOutDated");
+            return true;
+        }
+        return false;
     }
 
 
 }
+
+
+
