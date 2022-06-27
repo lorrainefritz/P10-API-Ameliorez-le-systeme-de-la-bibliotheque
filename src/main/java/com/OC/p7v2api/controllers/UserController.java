@@ -45,9 +45,7 @@ public class UserController {
     private final UserService userService;
     private final UserDtoMapper userDtoMapper;
     private final UserAuthentication userAuthentication;
-    AuthenticationManager authenticationManager;
     private final BorrowDtoMapper borrowDtoMapper;
-    private final BorrowService borrowService;
     private final ReservationDtoMapper reservationDtoMapper;
     private final ReservationService reservationService;
     private final BookService bookService;
@@ -58,7 +56,6 @@ public class UserController {
         log.info("in UserController in AUTHENTICATE with username {}", username);
         String token = userAuthentication.successfulAuthentication(username, password);
         return new ResponseEntity(token, HttpStatus.OK);
-
     }
 
 
@@ -99,9 +96,14 @@ public class UserController {
     }
 
     @PostMapping("/users/account/reservations/delete")
-    public void deleteAReservation(@RequestParam Integer reservationId) {
+    public ResponseEntity deleteAReservation(@RequestParam Integer reservationId) {
         log.info("HTTP POST request received at /users/account/reservations/delete with borrowList where id is {} ", reservationId);
+        if (reservationId == null) {
+            log.info("HTTP POST request received at /users/account/reservations/delete where id is null");
+            return new ResponseEntity<>(reservationId, HttpStatus.NO_CONTENT);
+        }
         reservationService.deleteAReservationById(reservationId);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
     @Transactional

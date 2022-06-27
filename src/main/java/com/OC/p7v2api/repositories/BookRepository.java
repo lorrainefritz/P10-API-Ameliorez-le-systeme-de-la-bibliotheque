@@ -12,9 +12,7 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book,Integer> {
     @Query(value = "SELECT * FROM book book WHERE CONCAT (book.title, book.author, book.type) LIKE %?1%", nativeQuery=true)
     List<Book> findBooksByKeyword(@Param("keyword")String keyword);
-/*
- List<Book> findByTitleContaining(String title);
-*/
+
 
 
 

@@ -10,6 +10,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
     User findByUsername(String username);
-   /* @Query(value = "SELECT Borrow  FROM user" )
-    List<Borrow> fetchAllBorrowsFromUser(User user);*/
+
 }

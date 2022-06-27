@@ -59,22 +59,7 @@ public class ReservationService {
         Book book = reservation.getBook();
         //Sort the list of reservations by ascending Ids
         List<Reservation> reservationListForTheCurrentBook = bookService.getAscendingSortedReservations(book);
-        // Sort the borrows for this book
 
-       /* List<Borrow> borrowsForTheCurrentBook = null;
-        Date returnDate = null;*/
-        /* try {
-           borrowsForTheCurrentBook = bookService.getAscendingSortedBorrows(book);  
-      } catch (Exception e){
-          log.info("in ReservationService in deleteAReservationById method where borrowForTheCurrentBook Are Null");
-      }
-        // Retrieve the first returnDate of the list
-        
-
-            if (borrowsForTheCurrentBook!=null){
-                returnDate = borrowsForTheCurrentBook.get(0).getReturnDate();
-            }*/
-            
         int positionOfTheCurrentReservationInListForTheCurrentBook = reservationListForTheCurrentBook.indexOf(reservation);
         log.info("in ReservationService in deleteAReservationById method where reservationListForTheCurrentBook size is {} and positionOfTheCurrentReservationInListForTheCurrentBook is {}", reservationListForTheCurrentBook.size(), positionOfTheCurrentReservationInListForTheCurrentBook);
 
@@ -82,8 +67,7 @@ public class ReservationService {
 
         if (reservationListForTheCurrentBook.size() == 1) {
             log.info("in ReservationService in deleteAReservationById method in reservationListForTheCurrentBook size =1");
-            /*reservationListForTheCurrentBook.remove(positionOfTheCurrentReservationInListForTheCurrentBook);*/
-            /*deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book, returnDate);*/
+
             deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book);
 
         } else {
@@ -99,14 +83,14 @@ public class ReservationService {
                     }
                 }
                 deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book);
-                /*deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book, returnDate);*/
+
 
             }
             //case 3) the reservation is the last element of the list
             else if (positionOfTheCurrentReservationInListForTheCurrentBook == (reservationListForTheCurrentBook.size() - 1)) {
                 log.info("in ReservationService in deleteAReservationById method in reservation is the last of the list");
                 deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book);
-                /*deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book, returnDate);*/
+
 
             }
             //case 4) the reservation is somewhere in between
@@ -121,7 +105,7 @@ public class ReservationService {
                         saveAReservation(currentReservation);
                     }
                 }
-                /*deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book, returnDate);*/
+
                 deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(reservation, book);
 
             }
@@ -131,7 +115,7 @@ public class ReservationService {
     private void deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(Reservation reservation, Book book) {
         log.info("in ReservationService in deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate method");
         book.setNumberOfReservation(book.getNumberOfReservation() - 1);
-        /*book.setNearestReturnDate(returnDate);*/
+
         reservationRepository.deleteById(reservation.getId());
         book.getReservations().remove(reservation);
         bookService.saveABook(book);
@@ -142,12 +126,12 @@ public class ReservationService {
         Book book = bookService.getABookById(bookId);
         User user = userService.getAUserById(userId);
         Date startDate = Date.from(Instant.now());
-        /*Date endDate = Date.from(Instant.now().plusSeconds(172800));//48h*/
+
         Reservation reservation = new Reservation();
         reservation.setBook(book);
         reservation.setUser(user);
         reservation.setStartDate(startDate);
-        /*reservation.setEndDate(endDate);*/
+
         reservation.setReservationPosition(book.getNumberOfReservation()+1);
         saveAReservation(reservation);
         book.setNumberOfReservation(book.getNumberOfReservation()+1);

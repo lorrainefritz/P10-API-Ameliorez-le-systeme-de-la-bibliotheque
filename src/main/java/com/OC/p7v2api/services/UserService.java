@@ -71,8 +71,5 @@ public class UserService implements UserDetailsService {
         authority.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authority);
     }
-   /* public List<Borrow> findBorrowsByUserId(Integer userId) {
-        log.info("in UserService in method findBorrowsFromAUserId");
-        return userRepository.findBorrowsByUserId(userId);
-    }*/
+
 }

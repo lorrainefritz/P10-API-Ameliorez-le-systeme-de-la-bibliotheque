@@ -14,11 +14,5 @@ import java.util.List;
 public interface BorrowRepository extends JpaRepository<Borrow,Integer> {
     List<Borrow> findByBook(Book book);
 
-/*
-    @Query("FROM Borrow b WHERE b.user = :user")
-    List<Borrow> findByUser(@Param("user") User user);
-*/
 
-   /* @Query(value = "SELECT b FROM Borrow b JOIN b.user.id=:userId")
-    List<Borrow> findBorrowsByUserId(@Param("userId")Integer userId);*/
 }

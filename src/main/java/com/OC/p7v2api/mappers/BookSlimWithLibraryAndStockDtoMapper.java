@@ -26,12 +26,12 @@ public interface BookSlimWithLibraryAndStockDtoMapper {
     @Mapping(source = "stock.numberOfCopiesAvailable", target = "numberOfCopiesAvailable")
     @Mapping(source = "library.name",target = "libraryName")
 
-    BookSlimWithLibraryAndStockDto bookStockLibraryToBookSlimWithLibraryAndStockDto(Book book);
-    List<BookSlimWithLibraryAndStockDto> booksStocksLibrariesToAllBookSlimWithLibraryAndStockDto(List<Book>books);
-    List<Book> booksStocksLibrariesDtoToAllBookSlimWithLibraryAndStock(List<BookSlimWithLibraryAndStockDto>books);
-     Book bookSlimWithLibraryAndStockDtoToBook(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
-    Stock bookSlimWithLibraryAndStockDtoToStock(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
-    Library bookSlimWithLibraryAndStockDtoToLibrary(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
+    BookSlimWithLibraryAndStockDto bookToBookDto(Book book);
+    List<BookSlimWithLibraryAndStockDto> booksToAllBooksDto(List<Book>books);
+    List<Book> booksDtoToAllBooks(List<BookSlimWithLibraryAndStockDto>books);
+    Book bookDtoToBook(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
+    Stock bookDtoToStock(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
+    Library bookDtoToLibrary(BookSlimWithLibraryAndStockDto bookSlimWithLibraryAndStockDto);
 
 
 }
