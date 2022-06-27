@@ -49,7 +49,11 @@ public class BorrowController {
             log.info("HTTP POST request received at users/account/borrows with borrowList where id is null");
             return new ResponseEntity<>(borrowId, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity(borrowService.extendABorrow(borrowId),HttpStatus.ACCEPTED);
+        else if (borrowService.findABorrowById(borrowId).isOutdated()){
+            log.info("HTTP POST request received at users/account/borrows with borrowList where borrowIsOutdated");
+            return new ResponseEntity<>(borrowId, HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity(borrowService.extendABorrow(borrowId), HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/allBorrows")
@@ -70,4 +74,13 @@ public class BorrowController {
         return new ResponseEntity<>(borrowDtoMapper.borrowToAllBorrowDto(borrows), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/borrowById")
+    public ResponseEntity getABorrowById(@RequestParam Integer borrowId) {
+        log.info("HTTP GET request received at /borrowById");
+        if (borrowId == null) {
+            log.info("HTTP DELETE request received at /borrowById where id is null");
+            return new ResponseEntity<>(borrowId, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(borrowDtoMapper.borrowToBorrowDto(borrowService.findABorrowById(borrowId)), HttpStatus.OK);
+    }
 }
