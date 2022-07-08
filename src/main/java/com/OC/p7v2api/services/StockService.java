@@ -23,20 +23,31 @@ public class StockService {
         return stockRepository.findAll();
     }
 
-    public Stock getOneStockById(Integer id) {
+    public Stock getOneStockById(Integer id) throws Exception {
         log.info("in StockService in getOneStockById method");
+        if (id==null){
+            log.info("in StockService in getOneStockById method where id is null");
+            throw new Exception("Id can't be null");
+        }
         return stockRepository.getById(id);
     }
 
-    public Stock saveAStock (Stock stock) {
+    public Stock saveAStock (Stock stock) throws Exception {
         log.info("in StockService in saveStock method");
-
+        if (stock==null){
+            log.info("in StockService in saveAStock method where stock is null");
+            throw new Exception("Stock can't be null");
+        }
 
         return stockRepository.save(stock);
     }
 
-    public void deleteAStock (Stock stock) {
+    public void deleteAStock (Stock stock) throws Exception {
         log.info("in StockService in deleteAStock method" + stock.getId());
+        if (stock==null){
+            log.info("in StockService in deleteAStock method where stock is null");
+            throw new Exception("Stock can't be null");
+        }
         stockRepository.delete(stock);
     }
 }

@@ -16,21 +16,33 @@ public class RoleService {
     private final RoleRepository roleRepository;
 
     public List<Role> findAllRoles(){
-        log.info("in BookService in findAllRoles method");
+        log.info("in RoleService in findAllRoles method");
         return roleRepository.findAll();
     }
 
-    public Role getARoleById(Integer id){
-        log.info("in BookService in getARoleById method");
+    public Role getARoleById(Integer id) throws Exception {
+        log.info("in RoleService in getARoleById method");
+        if (id==null){
+            log.info("in RoleService in getARoleById method where id is null");
+            throw new Exception("Id can't be null");
+        }
         return roleRepository.getById(id);
     }
 
-    public Role saveARole(Role role){
+    public Role saveARole(Role role) throws Exception {
         log.info("in BookService in saveARole method");
+        if (role==null){
+            log.info("in RoleService in saveArole method where stock is null");
+            throw new Exception("Role can't be null");
+        }
         return  roleRepository.save(role);
     }
-    public void deleteARole(Role role){
+    public void deleteARole(Role role) throws Exception {
         log.info("in BookService in deleteARole method");
-         roleRepository.delete(role);
+        if (role==null){
+            log.info("in RoleService in deleteArole method where stock is null");
+            throw new Exception("Role can't be null");
+        }
+        roleRepository.delete(role);
     }
 }

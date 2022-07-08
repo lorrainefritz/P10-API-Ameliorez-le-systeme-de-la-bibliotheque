@@ -12,7 +12,7 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface BorrowRepository extends JpaRepository<Borrow,Integer> {
-    List<Borrow> findByBook(Book book);
+    /*List<Borrow> findByBook(Book book);*/
 
 
 }

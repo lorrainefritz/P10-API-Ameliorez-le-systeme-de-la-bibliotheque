@@ -24,5 +24,5 @@ public interface BorrowDtoMapper {
 
     BorrowDto borrowToBorrowDto(Borrow borrow);
     List<BorrowDto> borrowToAllBorrowDto(List<Borrow> borrows);
-
+    Borrow borrowDtoToBorrow(BorrowDto borrowDto);
 }

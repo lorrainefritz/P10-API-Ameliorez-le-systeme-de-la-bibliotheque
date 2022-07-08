@@ -10,5 +10,5 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface ReservationRepository extends JpaRepository<Reservation,Integer> {
-    List<Reservation> findReservationsByBook(Book book);
+    /*List<Reservation> findReservationsByBook(Book book);*/
 }

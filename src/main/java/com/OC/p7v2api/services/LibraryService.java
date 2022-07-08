@@ -25,19 +25,32 @@ public class LibraryService {
         return libraryRepository.findAll();
     }
 
-    public Library getALibraryById(Integer id) {
+    public Library getALibraryById(Integer id) throws Exception {
         log.info("in LibraryService in getALibraryById method");
+        if (id==null){
+            log.info("in LibraryService in getALibraryById method where id is null");
+            throw new Exception("Id can't be null");
+        }
         return libraryRepository.getById(id);
     }
 
-    public Library saveALibrary(Library library) {
+    public Library saveALibrary(Library library) throws Exception {
         log.info("in LibraryService in saveALibrary method");
+        if (library==null){
+            log.info("in LibraryService in saveALibrary method where library is null");
+            throw new Exception("Library can't be null");
+        }
         return libraryRepository.save(library);
     }
 
-    public void deleteALibrary(Integer id) {
+    public void deleteALibrary(Library library) throws Exception {
         log.info("in LibraryService in deleteALibrary method");
-        libraryRepository.deleteById(id);
+        if (library==null){
+            log.info("in LibraryService in deleteALibrary method where id is null");
+            throw new Exception("Id can't be null");
+        }
+        library.setBooks(null);
+        libraryRepository.delete(library);
     }
 
 

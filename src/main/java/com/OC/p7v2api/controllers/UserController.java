@@ -1,12 +1,10 @@
 package com.OC.p7v2api.controllers;
 
+import com.OC.p7v2api.dtos.BookSlimWithLibraryAndStockDto;
 import com.OC.p7v2api.dtos.BorrowDto;
 import com.OC.p7v2api.dtos.ReservationDto;
 import com.OC.p7v2api.dtos.UserDto;
-import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Borrow;
-import com.OC.p7v2api.entities.Reservation;
-import com.OC.p7v2api.entities.User;
+import com.OC.p7v2api.entities.*;
 import com.OC.p7v2api.mappers.BorrowDtoMapper;
 import com.OC.p7v2api.mappers.ReservationDtoMapper;
 import com.OC.p7v2api.mappers.UserDtoMapper;
@@ -16,14 +14,13 @@ import com.OC.p7v2api.services.ReservationService;
 import com.OC.p7v2api.token.TokenUtil;
 import com.OC.p7v2api.security.UserAuthentication;
 import com.OC.p7v2api.services.UserService;
-import com.OC.p7v2api.util.BorrowReturnDatesComparator;
-import com.OC.p7v2api.util.ReservationIdsComparator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -49,6 +46,9 @@ public class UserController {
     private final ReservationDtoMapper reservationDtoMapper;
     private final ReservationService reservationService;
     private final BookService bookService;
+    private final BorrowService borrowService;
+
+
 
 
     @PostMapping(value = "/login")
@@ -72,7 +72,7 @@ public class UserController {
 
     @Transactional
     @GetMapping("users/borrowsFromUserId")
-    public ResponseEntity<List<BorrowDto>> findBorrowsByUserId(@RequestParam Integer userId) {
+    public ResponseEntity<List<BorrowDto>> findBorrowsByUserId(@RequestParam Integer userId) throws Exception {
         log.info("HTTP GET request received users/borrowsFromUserId with borrowList where userId is {}", userId);
         User user = userService.getAUserById(userId);
         log.info("HTTP GET request received users/borrowsFromUserId with borrowList where username is {}", user.getUsername());
@@ -95,22 +95,13 @@ public class UserController {
         return new ResponseEntity<>(reservationDtoMapper.reservationsToAllReservationDto(reservations), HttpStatus.OK);
     }
 
-    @PostMapping("/users/account/reservations/delete")
-    public ResponseEntity deleteAReservation(@RequestParam Integer reservationId) {
-        log.info("HTTP POST request received at /users/account/reservations/delete with borrowList where id is {} ", reservationId);
-        if (reservationId == null) {
-            log.info("HTTP POST request received at /users/account/reservations/delete where id is null");
-            return new ResponseEntity<>(reservationId, HttpStatus.NO_CONTENT);
-        }
-        reservationService.deleteAReservationById(reservationId);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-    }
+
 
     @Transactional
     @GetMapping("/users/allReservationsToRetrieveFromLibrary")
-    public ResponseEntity<List<ReservationDto>> generateAreservationListToRetrieveFromLibrary() {
+    public ResponseEntity<List<ReservationDto>> generateAreservationListToRetrieveFromLibrary() throws Exception {
         log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary");
-        List<Book> books = bookService.getAscendingSortedBooksById();
+        List<Book> books = bookService.getAllBooksSortedAscendingById();
         List<Reservation> reservationsToRetrieveFromLibrary = new ArrayList<>();
         for (Book currentBook : books) {
             log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary in for each book where currentBook title is {} ",currentBook.getTitle());
@@ -147,6 +138,36 @@ public class UserController {
             return true;
         }
         return false;
+    }
+
+    @PostMapping(value = "/users")
+    public ResponseEntity<UserDto> saveAUser(@RequestBody @Validated UserDto userDto, BindingResult bindingResult) throws Exception {
+        log.info("HTTP POST request received at /users with saveAUser");
+        if (userDto == null) {
+            log.info("HTTP POST request received at /users with saveAUser where userDto is null");
+            return new ResponseEntity<>(userDto, HttpStatus.NO_CONTENT);
+        }
+        else if (bindingResult.hasErrors()){
+            log.info("HTTP POST request received at /users with saveAUser where userDto is not valid");
+            return new ResponseEntity<>(userDto, HttpStatus.FORBIDDEN);
+        }
+        else {
+            User  user = userService.saveAUser(userDtoMapper.userDtoToUser(userDto));
+            userService.saveAUser(user);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    }
+
+    @DeleteMapping(value = "/users/delete/{id}")
+    public ResponseEntity deleteAUser(@PathVariable Integer id) throws Exception {
+        log.info("HTTP DELETE request received at /users/delete/" + id + " with deleteAUser");
+        if (id == null) {
+            log.info("HTTP DELETE request received at /books/users/id where id is null");
+            return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
+        }
+        User user = userService.getAUserById(id);
+        userService.deleteAUser(user);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 

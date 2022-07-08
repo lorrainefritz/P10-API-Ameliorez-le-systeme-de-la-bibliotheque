@@ -89,4 +89,6 @@ public class Book {
 
     @Column(name="MAX_RESERVATION_LIST_SIZE")
     private int maxReservationListSize;
+
+
 }

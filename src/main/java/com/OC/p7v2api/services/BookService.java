@@ -11,8 +11,11 @@ import com.OC.p7v2api.util.ReservationIdsComparator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -26,21 +29,43 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book getABookById(Integer id) {
+    public Book getABookById(Integer id) throws Exception {
         log.info("in BookService in getOneBookById method");
+        if (id==null){
+            log.info("in BookService in getOneBookById method where id is null");
+            throw new Exception("Invalid Id");
+        }
         return bookRepository.getById(id);
     }
 
 
-    public Book saveABook(Book book) {
+    public Book saveABook(@Valid Book book) throws Exception {
         log.info("in BookService in saveABook method");
+        if (book==null){
+            log.info("in BookService in saveABook method where book is null");
+            throw new Exception("Book can't be null");
 
-        book.setMaxReservationListSize((book.getStock().getTotalOfCopies())*2);
-        return bookRepository.save(book);
+        }
+        return bookRepository.save(settingTheNumberOfReservationPossibleForThisBook(book));
     }
 
-    public void deleteABook(Book book) {
+    public Book settingTheNumberOfReservationPossibleForThisBook(@Valid Book book) throws Exception {
+        log.info("in BookService in settingTheNumberOfReservationPossibleForThisBook method");
+        if (book==null){
+            log.info("in BookService in settingTheNumberOfReservationPossibleForThisBook method where book is null");
+            throw new Exception("Book can't be null");
+
+        }
+        book.setMaxReservationListSize((book.getStock().getTotalOfCopies())*2);
+        return book;
+    }
+
+    public void deleteABook(@Valid Book book)throws Exception {
         log.info("in BookService in deleteABook method");
+        if (book==null){
+            log.info("in BookService in deleteABook method where book is null");
+            throw new Exception("Book can't be null");
+        }
         bookRepository.delete(book);
     }
 
@@ -49,8 +74,13 @@ public class BookService {
         return bookRepository.findBooksByKeyword(keyword);
     }
 
-    public List<Reservation> getAscendingSortedReservations(Book book) {
+    public List<Reservation> getAscendingSortedReservations(@Valid Book book) throws Exception {
         log.info("in BookService in getAscendingSortedReservations methode where bookTitle is {}", book.getTitle());
+        if (book==null){
+            log.info("in BookService in getAscendingSortedReservations method where book is null");
+            throw new Exception("Book can't be null");
+
+        }
 
         List<Reservation> reservationListForTheCurrentBook = book.getReservations();
 
@@ -67,7 +97,7 @@ public class BookService {
     }
 
 
-    public List<Book> getAscendingSortedBooksById() {
+    public List<Book> getAllBooksSortedAscendingById() {
         List<Book> books = findAllBooks();
         for (Book currentBook : books) {
             log.info("in BookService in getAscendingSortedBooksById methode before sorting books where currentBook id is {}",currentBook.getId());

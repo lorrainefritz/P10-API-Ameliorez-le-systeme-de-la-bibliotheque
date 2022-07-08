@@ -1,9 +1,7 @@
 package com.OC.p7v2api.controllers;
 
 import com.OC.p7v2api.dtos.BorrowDto;
-import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Borrow;
-import com.OC.p7v2api.entities.User;
+import com.OC.p7v2api.entities.*;
 import com.OC.p7v2api.mappers.BorrowDtoMapper;
 import com.OC.p7v2api.services.BookService;
 import com.OC.p7v2api.services.BorrowService;
@@ -14,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -43,7 +43,7 @@ public class BorrowController {
     }
 
     @PostMapping(value = "/users/account/borrows/extend")
-    public ResponseEntity extendABorrow(@RequestParam Integer borrowId) {
+    public ResponseEntity extendABorrow(@RequestParam Integer borrowId) throws Exception {
         log.info("HTTP POST request received at users/account/borrows with borrowList where id is ", borrowId);
         if (borrowId == null) {
             log.info("HTTP POST request received at users/account/borrows with borrowList where id is null");
@@ -75,7 +75,7 @@ public class BorrowController {
     }
 
     @GetMapping(value = "/borrowById")
-    public ResponseEntity getABorrowById(@RequestParam Integer borrowId) {
+    public ResponseEntity getABorrowById(@RequestParam Integer borrowId) throws Exception {
         log.info("HTTP GET request received at /borrowById");
         if (borrowId == null) {
             log.info("HTTP DELETE request received at /borrowById where id is null");
@@ -83,4 +83,34 @@ public class BorrowController {
         }
         return new ResponseEntity(borrowDtoMapper.borrowToBorrowDto(borrowService.findABorrowById(borrowId)), HttpStatus.OK);
     }
+
+    @PostMapping(value = "/borrows")
+    public ResponseEntity<BorrowDto> saveABorrow(@RequestBody @Validated BorrowDto borrowDto, BindingResult bindingResult) throws Exception {
+        log.info("HTTP POST request received at / with saveABorrow");
+        if (borrowDto == null) {
+            log.info("HTTP POST request received at /borrows with saveABorrow where borrowDto is null");
+            return new ResponseEntity<>(borrowDto, HttpStatus.NO_CONTENT);
+        }
+        else if (bindingResult.hasErrors()){
+            log.info("HTTP POST request received at /borrows with saveABorrow where borrowDto is not valid");
+            return new ResponseEntity<>(borrowDto, HttpStatus.FORBIDDEN);
+        }
+        else {
+
+            borrowService.saveABorrow(borrowDtoMapper.borrowDtoToBorrow(borrowDto));
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(borrowDto);
+    }
+
+    @DeleteMapping(value = "/borrows/delete/{id}")
+    public ResponseEntity deleteABorrow(@PathVariable Integer id) throws Exception {
+        log.info("HTTP DELETE request received at /borrows/delete/" + id + " with deleteABorow");
+        if (id == null) {
+            log.info("HTTP DELETE request received at /borrows/delete/id where id is null");
+            return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
+        }
+        borrowService.deleteABorrow(borrowService.findABorrowById(id));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
 }

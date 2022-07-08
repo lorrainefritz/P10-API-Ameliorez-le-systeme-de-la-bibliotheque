@@ -27,23 +27,38 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
-    public Reservation getAReservationById(Integer id) {
+    public Reservation getAReservationById(Integer id) throws Exception {
         log.info("in ReservationService in getAReservationById method");
+        if (id==null){
+            log.info("in ReservationService in getAReservationById method where id is null");
+            throw new Exception("Id can't be null");
+        }
         return reservationRepository.getById(id);
     }
 
-    public Reservation saveAReservation(Reservation reservation) {
-        log.info("in ReservationService in saveAReservation method");
+    public Reservation saveAReservation(Reservation reservation) throws Exception {
+        if (reservation==null){
+            log.info("in ReservationService in saveAReservation method where reservation is null");
+            throw new Exception("Reservation can't be null");
+        }
         return reservationRepository.save(reservation);
     }
 
-    public void deleteAReservation(Reservation reservation) {
+    public void deleteAReservation(Reservation reservation) throws Exception {
+        if (reservation==null){
+            log.info("in ReservationService in deleteAReservation method where id is null");
+            throw new Exception("Reservation can't be null");
+        }
         log.info("in ReservationService in deleteAReservation method");
         reservationRepository.delete(reservation);
     }
 
-    public List<Reservation> findReservationsByBookId(Integer id) {
+    /*public List<Reservation> findReservationsByBookId(Integer id) throws Exception {
         log.info("in ReservationService in findReservationsByBookId method");
+        if (id==null){
+            log.info("in ReservationService in findReservationByBookId method where id is null");
+            throw new Exception("Invalid Id");
+        }
         Book book = bookService.getABookById(id);
         return reservationRepository.findReservationsByBook(book);
     }
@@ -51,11 +66,15 @@ public class ReservationService {
     public List<Reservation> findReservationsByBook(Book book) {
         log.info("in ReservationService in findReservationsByBookId method");
         return reservationRepository.findReservationsByBook(book);
-    }
+    }*/
 
-    public void deleteAReservationById(Integer reservationId) {
+    public void deleteAReservationById(Integer id) throws Exception {
         log.info("in ReservationService in deleteAReservationById method");
-        Reservation reservation = getAReservationById(reservationId);
+        if (id==null){
+            log.info("in ReservationService in deleteAReservationById method where id is null");
+            throw new Exception("Id can't be null");
+        }
+        Reservation reservation = getAReservationById(id);
         Book book = reservation.getBook();
         //Sort the list of reservations by ascending Ids
         List<Reservation> reservationListForTheCurrentBook = bookService.getAscendingSortedReservations(book);
@@ -112,8 +131,13 @@ public class ReservationService {
         }
     }
 
-    private void deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(Reservation reservation, Book book) {
+    private void deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate(Reservation reservation, Book book) throws Exception {
         log.info("in ReservationService in deleteAReservationAndUpdateBookForNumberOfReservationsAndEndDate method");
+        if (reservation==null||book==null){
+            log.info("in ReservationService in findReservationByBookId method where reservation or book are null");
+            throw new Exception("Reservation and book can't be null");
+        }
+
         book.setNumberOfReservation(book.getNumberOfReservation() - 1);
 
         reservationRepository.deleteById(reservation.getId());
@@ -121,8 +145,12 @@ public class ReservationService {
         bookService.saveABook(book);
     }
 
-    public void makeAReservation(Integer bookId, Integer userId) {
+    public Reservation makeAReservation(Integer bookId, Integer userId) throws Exception {
         log.info("in ReservationService in makeAReservation method");
+        if (bookId==null||userId==null){
+            log.info("in ReservationService in makeAreservation method where bookId userUd are null");
+            throw new Exception("ReservationId and userId can't be null");
+        }
         Book book = bookService.getABookById(bookId);
         User user = userService.getAUserById(userId);
         Date startDate = Date.from(Instant.now());
@@ -136,6 +164,7 @@ public class ReservationService {
         saveAReservation(reservation);
         book.setNumberOfReservation(book.getNumberOfReservation()+1);
         bookService.saveABook(book);
+        return reservation;
     }
 
 

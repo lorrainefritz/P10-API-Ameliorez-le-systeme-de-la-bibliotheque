@@ -19,4 +19,5 @@ public interface LibraryDtoMapper {
     @Mapping(source = "library.openingTime",target = "openingTime")
     LibraryDto libraryToLibraryDto(Library library);
     List<LibraryDto> libraryToAllLibraryDto(List<Library>libraries);
+    Library libraryDtoToLibrary(LibraryDto libraryDto);
 }
