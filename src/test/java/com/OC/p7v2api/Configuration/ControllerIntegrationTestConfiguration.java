@@ -20,6 +20,7 @@ public class ControllerIntegrationTestConfiguration {
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         return dataSource;
+
     }
 
 }
