@@ -46,7 +46,7 @@ public class UserController {
     private final ReservationDtoMapper reservationDtoMapper;
     private final ReservationService reservationService;
     private final BookService bookService;
-    private final BorrowService borrowService;
+   /* private final BorrowService borrowService;*/
 
 
 
@@ -158,7 +158,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
-    @DeleteMapping(value = "/users/delete/{id}")
+    /*@DeleteMapping(value = "/users/delete/{id}")
     public ResponseEntity deleteAUser(@PathVariable Integer id) throws Exception {
         log.info("HTTP DELETE request received at /users/delete/" + id + " with deleteAUser");
         if (id == null) {
@@ -169,7 +169,7 @@ public class UserController {
         userService.deleteAUser(user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
-
+*/
 
 }
 

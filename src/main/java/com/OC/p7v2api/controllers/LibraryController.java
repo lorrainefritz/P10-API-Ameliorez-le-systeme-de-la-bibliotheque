@@ -37,7 +37,7 @@ public class LibraryController {
 
     @PostMapping(value = "/libraries")
     public ResponseEntity<LibraryDto> saveALibrary(@RequestBody @Validated LibraryDto libraryDto, BindingResult bindingResult) throws Exception {
-        log.info("HTTP POST request received at /libraries with saveALibrary");
+        log.info("HTTP POST request received at /libraries with save ALibrary");
         if (libraryDto == null) {
             log.info("HTTP POST request received at /libraries with saveABorrow where libraryDto is null");
             return new ResponseEntity<>(libraryDto, HttpStatus.NO_CONTENT);

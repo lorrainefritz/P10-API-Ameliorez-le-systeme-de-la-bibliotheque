@@ -17,7 +17,6 @@ public class StockDto {
         private int numberOfCopiesOut;
         private int totalOfCopies;
         private boolean bookIsAvailable;
-        private Book book;
 
 
 }

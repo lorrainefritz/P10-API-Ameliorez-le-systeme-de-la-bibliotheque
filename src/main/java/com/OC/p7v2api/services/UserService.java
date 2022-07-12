@@ -24,8 +24,8 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ReservationService reservationService;
-    private final BorrowService borrowService;
+    /*private final ReservationService reservationService;*/
+    /*private final BorrowService borrowService;*/
 
     public List<User> findAllUsers(){
         log.info("in UserService in findAllUsers method ");
@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void deleteAUser(User user) throws Exception {
+    /*public void deleteAUser(User user) throws Exception {
         log.info("in UserService in deleteAUser method");
         if (user==null){
             log.info("in UserService in deleteUser method where user is null");
@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
             borrowService.deleteABorrow(borrow);
         }
         userRepository.delete(user);;
-    }
+    }*/
 
     public User saveAUser(User user) throws Exception {
         log.info("in UserService in saveAUser method");

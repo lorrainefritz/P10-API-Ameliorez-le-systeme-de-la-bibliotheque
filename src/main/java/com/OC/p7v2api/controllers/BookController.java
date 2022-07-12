@@ -49,20 +49,23 @@ public class BookController {
 
 
     @PostMapping(value = "/books")
-    public ResponseEntity<BookSlimWithLibraryAndStockDto> saveABook(@RequestBody @Validated BookSlimWithLibraryAndStockDto bookDto, BindingResult bindingResult) throws Exception {
+    public ResponseEntity<BookSlimWithLibraryAndStockDto> saveABook(@RequestBody BookSlimWithLibraryAndStockDto bookDto) throws Exception {
         log.info("HTTP POST request received at /books with saveABook");
         if (bookDto == null) {
             log.info("HTTP POST request received at /books with saveABook where bookDto is null");
             return new ResponseEntity<>(bookDto, HttpStatus.NO_CONTENT);
-        }
-        else if (bindingResult.hasErrors()){
-            log.info("HTTP POST request received at /books with saveABook where bookDto is not valid");
-            return new ResponseEntity<>(bookDto, HttpStatus.FORBIDDEN);
-        }
-        else {
-            Stock stock = stockService.saveAStock(bookDtoMapper.bookDtoToStock(bookDto));
-            Book book = bookService.saveABook(bookDtoMapper.bookDtoToBook(bookDto));
-            Library library = libraryService.saveALibrary(bookDtoMapper.bookDtoToLibrary(bookDto));
+        } else {
+            Stock stock= new Stock();
+            Book book = new Book();
+            Library library = new Library();
+            try {
+                stock = stockService.saveAStock(bookDtoMapper.bookDtoToStock(bookDto));
+                book = bookService.saveABook(bookDtoMapper.bookDtoToBook(bookDto));
+                library = libraryService.saveALibrary(bookDtoMapper.bookDtoToLibrary(bookDto));
+            } catch (Exception e) {
+                log.info("HTTP POST request received at /books with saveABook where bookDto is invalid");
+                return new ResponseEntity<>(bookDto, HttpStatus.FORBIDDEN);
+            }
             book.setLibrary(library);
             book.setStock(stock);
             bookService.saveABook(book);
@@ -84,7 +87,6 @@ public class BookController {
         bookService.deleteABook(book);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
-
 
 
 }
