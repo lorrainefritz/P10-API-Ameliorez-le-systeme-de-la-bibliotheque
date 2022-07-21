@@ -1,6 +1,7 @@
 package com.OC.p7v2api.controllers;
 
 import com.OC.p7v2api.dtos.BorrowDto;
+import com.OC.p7v2api.dtos.RoleDto;
 import com.OC.p7v2api.entities.*;
 import com.OC.p7v2api.mappers.BorrowDtoMapper;
 import com.OC.p7v2api.services.BookService;
@@ -31,6 +32,12 @@ public class BorrowController {
     private final TokenUtil tokenUtil;
     private final BookService bookService;
 
+    @GetMapping(value = "/borrows")
+    public ResponseEntity<List<BorrowDto>> findAllBorrows(){
+        log.info("HTTP GET request received at /borrows with findAllBorrows");
+        return new ResponseEntity<>(borrowDtoMapper.borrowToAllBorrowDto(borrowService.findAllBorrows()), HttpStatus.OK);
+    }
+
     @Transactional
     @GetMapping(value = "users/account/borrows")
     public ResponseEntity<List<BorrowDto>> borrowList(@CookieValue(value = "jwtToken") String token) {
@@ -53,7 +60,7 @@ public class BorrowController {
             log.info("HTTP POST request received at users/account/borrows with borrowList where borrowIsOutdated");
             return new ResponseEntity<>(borrowId, HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity(borrowService.extendABorrow(borrowId), HttpStatus.ACCEPTED);
+        return new ResponseEntity(borrowDtoMapper.borrowToBorrowDto(borrowService.extendABorrow(borrowId)), HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/allBorrows")

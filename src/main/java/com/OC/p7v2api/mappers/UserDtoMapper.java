@@ -1,7 +1,9 @@
 package com.OC.p7v2api.mappers;
 
+import com.OC.p7v2api.dtos.StockDto;
 import com.OC.p7v2api.dtos.UserDto;
 import com.OC.p7v2api.entities.Borrow;
+import com.OC.p7v2api.entities.Stock;
 import com.OC.p7v2api.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,6 +19,7 @@ public interface UserDtoMapper {
     @Mapping(source = "user.address",target = "address")
     @Mapping(source = "user.phone",target = "phone")
     UserDto userToUserDtoMapper(User user);
+    List<UserDto> userToAllUserDto(List<User>users);
     User userDtoToUser(UserDto userDto);
 
 }

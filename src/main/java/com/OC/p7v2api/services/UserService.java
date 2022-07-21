@@ -24,8 +24,6 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    /*private final ReservationService reservationService;*/
-    /*private final BorrowService borrowService;*/
 
     public List<User> findAllUsers(){
         log.info("in UserService in findAllUsers method ");
@@ -49,21 +47,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    /*public void deleteAUser(User user) throws Exception {
-        log.info("in UserService in deleteAUser method");
-        if (user==null){
-            log.info("in UserService in deleteUser method where user is null");
-            throw new Exception("User can't be null");
-        }
-        user.setRole(null);
-        for (Reservation reservation :user.getReservations()) {
-            reservationService.deleteAReservation(reservation);
-        }
-        for (Borrow borrow :user.getBorrows()) {
-            borrowService.deleteABorrow(borrow);
-        }
-        userRepository.delete(user);;
-    }*/
 
     public User saveAUser(User user) throws Exception {
         log.info("in UserService in saveAUser method");

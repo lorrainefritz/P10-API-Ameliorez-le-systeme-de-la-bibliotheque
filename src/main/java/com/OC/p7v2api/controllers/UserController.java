@@ -49,7 +49,11 @@ public class UserController {
    /* private final BorrowService borrowService;*/
 
 
-
+    @GetMapping(value = "/users")
+    public ResponseEntity<List<UserDto>> findAllUsers(){
+        log.info("HTTP GET request received at /users with findAllUsers");
+        return new ResponseEntity<>(userDtoMapper.userToAllUserDto(userService.findAllUsers()), HttpStatus.OK);
+    }
 
     @PostMapping(value = "/login")
     public ResponseEntity authenticate(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password, HttpServletResponse response) throws ServletException, IOException {
@@ -157,19 +161,6 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
-
-    /*@DeleteMapping(value = "/users/delete/{id}")
-    public ResponseEntity deleteAUser(@PathVariable Integer id) throws Exception {
-        log.info("HTTP DELETE request received at /users/delete/" + id + " with deleteAUser");
-        if (id == null) {
-            log.info("HTTP DELETE request received at /books/users/id where id is null");
-            return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
-        }
-        User user = userService.getAUserById(id);
-        userService.deleteAUser(user);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-    }
-*/
 
 }
 

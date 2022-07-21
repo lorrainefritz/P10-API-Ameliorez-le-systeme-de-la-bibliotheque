@@ -29,47 +29,6 @@ public class BookRepositoryTest {
         bookRepositoryUnderTest.deleteAll();
     }
 
-    /* @Mock
-    private LibraryRepository libraryRepository;
-    @Mock
-    private StockRepository stockRepository;
-*/
-
-    /*@Test
-    public void test() {
-
-        List<Borrow> borrows = null;
-        List<Reservation> reservations = null;
-        Book book1 = null;
-        Library library = new Library(1, "Katzenheim-Nord", "3 rue des fleurs 57000 METZ", "kathenheimNord@gmail.com", "0383333333", "10h-18h", books);
-        Stock stock1 = new Stock(1, 2, 0, 2, true, book1);
-        book1 = new Book(1, "Blackwater, tome 1", "Michael McDowell", "Fantastique", "les Caskey et l'arrivée d'une femme", "MONSIEUR TOUSSAINT LOUVERTURE", "Français", "MCF01", "07/04/2022", null, library, stock, borrows, reservations, null, 0, 2);
-        stock1.setBook(book1);
-        String keywordUnderTest = "Blackwater";
-
-        bookRepositoryUnderTest.save(book1);
-        //WHEN
-        List<Book> bookListUnderTest = bookRepositoryUnderTest.findBooksByKeyword(keywordUnderTest);
-        assertThat(bookListUnderTest.get(0).getTitle()).isEqualTo(book1.getTitle());
-
-    }*/
-
-
-
-
-
-
-
-    /*@After
-    void tearDown() {
-        *//*libraryRepository.deleteAll();
-        stockRepository.deleteAll();*//*
-        bookRepositoryUnderTest.deleteAll();
-    }*/
-
-
-
-
     private Library library;
     private List<Borrow> borrows;
     private List<Reservation> reservations;

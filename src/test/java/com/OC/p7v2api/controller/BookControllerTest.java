@@ -89,7 +89,7 @@ public class BookControllerTest {
 
 
     @Test
-    void checkSaveABook_whenBookIsValid() throws Exception {
+    void checkSaveABook() throws Exception {
         //GIVEN
         Date nearestDateOfReturn = new GregorianCalendar(2022, 06, 3).getTime();
 
@@ -140,7 +140,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void testDeleteABook() throws Exception {
+    void checkDeleteABook() throws Exception {
         doNothing().when(this.stockService).deleteAStock((Stock) any());
 
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();

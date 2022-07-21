@@ -87,7 +87,7 @@ public class BorrowControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
 
-
+    @Test
     void checkExtendABorrow() throws Exception {
         //GIVEN
         Date startDate = new GregorianCalendar(2022, 06, 1).getTime();
@@ -101,7 +101,7 @@ public class BorrowControllerTest {
 
         Role role1 = new Role(1, "ROLE_USER", new ArrayList<>());
         User user1 = new User(1, "paul@gmail.com", "Paul", "Atreid", "3 rue des fleurs", "0688997744", "123", role1, new ArrayList<>(), new ArrayList<>());
-        Borrow borrow1 = new Borrow(1, startDate, returnDate, true, false, user1, book1);
+        Borrow borrow1 = new Borrow(1, startDate, returnDate, true, true, user1, book1);
         //WHEN
         when(this.borrowService.findABorrowById((Integer) any())).thenReturn(borrow1);
         //THEN
