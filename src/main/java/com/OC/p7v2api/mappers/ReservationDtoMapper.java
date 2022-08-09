@@ -1,15 +1,10 @@
 package com.OC.p7v2api.mappers;
 
-import com.OC.p7v2api.dtos.BookSlimWithLibraryAndStockDto;
 import com.OC.p7v2api.dtos.ReservationDto;
-import com.OC.p7v2api.entities.Book;
 import com.OC.p7v2api.entities.Reservation;
-import com.OC.p7v2api.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Mapper(componentModel = "spring")

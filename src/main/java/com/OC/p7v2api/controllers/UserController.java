@@ -1,19 +1,20 @@
 package com.OC.p7v2api.controllers;
 
-import com.OC.p7v2api.dtos.BookSlimWithLibraryAndStockDto;
 import com.OC.p7v2api.dtos.BorrowDto;
 import com.OC.p7v2api.dtos.ReservationDto;
 import com.OC.p7v2api.dtos.UserDto;
-import com.OC.p7v2api.entities.*;
+import com.OC.p7v2api.entities.Book;
+import com.OC.p7v2api.entities.Borrow;
+import com.OC.p7v2api.entities.Reservation;
+import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.mappers.BorrowDtoMapper;
 import com.OC.p7v2api.mappers.ReservationDtoMapper;
 import com.OC.p7v2api.mappers.UserDtoMapper;
-import com.OC.p7v2api.services.BookService;
-import com.OC.p7v2api.services.BorrowService;
-import com.OC.p7v2api.services.ReservationService;
-import com.OC.p7v2api.token.TokenUtil;
 import com.OC.p7v2api.security.UserAuthentication;
+import com.OC.p7v2api.services.BookService;
+import com.OC.p7v2api.services.ReservationService;
 import com.OC.p7v2api.services.UserService;
+import com.OC.p7v2api.token.TokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,6 @@ public class UserController {
     private final ReservationDtoMapper reservationDtoMapper;
     private final ReservationService reservationService;
     private final BookService bookService;
-   /* private final BorrowService borrowService;*/
 
 
     @GetMapping(value = "/users")
@@ -104,25 +104,25 @@ public class UserController {
     @Transactional
     @GetMapping("/users/allReservationsToRetrieveFromLibrary")
     public ResponseEntity<List<ReservationDto>> generateAreservationListToRetrieveFromLibrary() throws Exception {
-        log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary");
+        log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary");
         List<Book> books = bookService.getAllBooksSortedAscendingById();
         List<Reservation> reservationsToRetrieveFromLibrary = new ArrayList<>();
         for (Book currentBook : books) {
-            log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary in for each book where currentBook title is {} ",currentBook.getTitle());
+            log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary in for each book where currentBook title is {} ",currentBook.getTitle());
             if (currentBook.getStock().getNumberOfCopiesAvailable() > 0 && currentBook.getNumberOfReservation() > 0) {
-                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary where the currentBook has > 0 numberOfCopiesAvailable AND > 0 for booktitle is {}", currentBook.getTitle());
+                log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary where the currentBook has > 0 numberOfCopiesAvailable AND > 0 for booktitle is {}", currentBook.getTitle());
                 List<Reservation> reservationsForTheCurrentBook = currentBook.getReservations();
                 if (checkIfReservationHasExpired(reservationsForTheCurrentBook.get(0)) == true) {
-                    log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary where the first reservation of the list has expired and will be delete. reservation id is {}",reservationsForTheCurrentBook.get(0).getId());
+                    log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary where the first reservation of the list has expired and will be delete. reservation id is {}",reservationsForTheCurrentBook.get(0).getId());
                     reservationService.deleteAReservationById(reservationsForTheCurrentBook.get(0).getId());
                     reservationsForTheCurrentBook = bookService.getAscendingSortedReservations(currentBook);
-                    log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary where the first reservation of the list was expired the new first reservation id is {}",reservationsForTheCurrentBook.get(0).getId());
+                    log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary where the first reservation of the list was expired the new first reservation id is {}",reservationsForTheCurrentBook.get(0).getId());
                 }
                 //setting the Endate for the first reservation for this book to 48h after today
-                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary before setting the endDate of firstReservation");
+                log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary before setting the endDate of firstReservation");
                 Reservation firstReservation = reservationsForTheCurrentBook.get(0);
                 firstReservation.setEndDate(Date.from(Instant.now().plusSeconds(172800)));
-                log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary after setting the endDate of firstReservation the endDate is {}",firstReservation.getEndDate());
+                log.info("HTTP GET request received at /users/account/allReservationsToRetrieveFromLibrary after setting the endDate of firstReservation the endDate is {}",firstReservation.getEndDate());
                 // add to the reservationList to send an email to
                 reservationsToRetrieveFromLibrary.add(firstReservation);
                 log.info("HTTP POST request received at /users/account/allReservationsToRetrieveFromLibrary reservationToRetrieveFromLibrary size being ", reservationsToRetrieveFromLibrary.size());

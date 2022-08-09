@@ -1,11 +1,7 @@
 package com.OC.p7v2api.service;
 
-import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Borrow;
 import com.OC.p7v2api.entities.Role;
-import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.RoleRepository;
-import com.OC.p7v2api.services.LibraryService;
 import com.OC.p7v2api.services.RoleService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;

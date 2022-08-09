@@ -1,7 +1,5 @@
 package com.OC.p7v2api.services;
 
-import com.OC.p7v2api.entities.Borrow;
-import com.OC.p7v2api.entities.Reservation;
 import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,11 @@
 package com.OC.p7v2api.service;
 
-import com.OC.p7v2api.entities.*;
+import com.OC.p7v2api.entities.Borrow;
+import com.OC.p7v2api.entities.Reservation;
+import com.OC.p7v2api.entities.Role;
+import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.UserRepository;
 import com.OC.p7v2api.services.BorrowService;
-import com.OC.p7v2api.services.LibraryService;
 import com.OC.p7v2api.services.ReservationService;
 import com.OC.p7v2api.services.UserService;
 import org.junit.jupiter.api.AfterEach;
@@ -43,7 +45,7 @@ public class UserServiceTest {
         autoCloseable = MockitoAnnotations.openMocks(this);
         
        userServiceUndertest = new UserService(userRepository,passwordEncoder);
-               //new UserService(userRepository,passwordEncoder,reservationService,borrowService);
+
     }
     @AfterEach
     void tearDown() throws Exception {
@@ -91,29 +93,6 @@ public class UserServiceTest {
         }).withMessage("User can't be null");
     }
 
-    /*@Test
-    public void checkDeleteAUser_shouldCallUserRepository() throws Exception {
-        //GIVEN WHEN
-        List<Borrow> borrows = new ArrayList<>();
-        List<Reservation> reservations = new ArrayList<>();
-        role = new Role(1,"ROLE_USER",null);
-        User userUnderTest = new User(1,"paul@gmail.com","Paul","Atreid","3 rue des fleurs Katzenheim","0666445599","123",role,borrows,reservations);
-        List<User> users = new ArrayList<>();
-        users.add(userUnderTest);
-        role.setUsers(users);
-        userServiceUndertest.deleteAUser(userUnderTest);
-        //THEN
-        verify(userRepository).delete(userUnderTest);
-    }
-
-    @Test
-    public void checkDeleteAUser_WhenUserIsNull_ShouldThrowAnException() throws Exception {
-        //GIVEN WHEN
-       User userUnderTest = null;
-        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
-            userServiceUndertest.deleteAUser(userUnderTest);
-        }).withMessage("User can't be null");
-    }*/
 
     @Test
     public void checkLoadUserByUserName_whenGivenAValidUsername_shouldReturnAUser() throws Exception {

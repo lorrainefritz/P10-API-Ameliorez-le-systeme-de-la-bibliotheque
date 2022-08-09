@@ -1,6 +1,5 @@
 package com.OC.p7v2api.services;
 
-import com.OC.p7v2api.entities.Book;
 import com.OC.p7v2api.entities.Borrow;
 import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.BorrowRepository;
@@ -59,24 +58,6 @@ public class BorrowService {
         borrowRepository.delete(borrow);
     }
 
-    /*public List<Borrow>findBorrowsByBookId(Integer id) throws Exception {
-        log.info("in BorrowService in findBorrowsByBookId method");
-        if (id==null){
-            log.info("in BorrowService in findABorrowByBookId where id is null");
-            throw new Exception("Invalid Id");
-        }
-        Book book = bookService.getABookById(id);
-        return borrowRepository.findByBook(book);
-    }
-
-    public List<Borrow>findBorrowsByBook(Book book) throws Exception {
-        log.info("in BorrowService in findBorrowsByBook method");
-        if (book==null){
-            log.info("in BorrowService in findABorrowById method where book is null");
-            throw new Exception("book can't be null");
-        }
-        return borrowRepository.findByBook(book);
-    }*/
 
     public Borrow extendABorrow(Integer id) throws Exception {
         log.info("in BorrowService in extendABorrow method where borrow id is {}", id);

@@ -1,8 +1,8 @@
 package com.OC.p7v2api.controllers;
 
 import com.OC.p7v2api.dtos.BorrowDto;
-import com.OC.p7v2api.dtos.RoleDto;
-import com.OC.p7v2api.entities.*;
+import com.OC.p7v2api.entities.Borrow;
+import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.mappers.BorrowDtoMapper;
 import com.OC.p7v2api.services.BookService;
 import com.OC.p7v2api.services.BorrowService;

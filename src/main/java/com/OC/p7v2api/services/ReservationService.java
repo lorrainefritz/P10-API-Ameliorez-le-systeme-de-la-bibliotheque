@@ -1,7 +1,6 @@
 package com.OC.p7v2api.services;
 
 import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Borrow;
 import com.OC.p7v2api.entities.Reservation;
 import com.OC.p7v2api.entities.User;
 import com.OC.p7v2api.repositories.ReservationRepository;
@@ -53,20 +52,6 @@ public class ReservationService {
         reservationRepository.delete(reservation);
     }
 
-    /*public List<Reservation> findReservationsByBookId(Integer id) throws Exception {
-        log.info("in ReservationService in findReservationsByBookId method");
-        if (id==null){
-            log.info("in ReservationService in findReservationByBookId method where id is null");
-            throw new Exception("Invalid Id");
-        }
-        Book book = bookService.getABookById(id);
-        return reservationRepository.findReservationsByBook(book);
-    }
-
-    public List<Reservation> findReservationsByBook(Book book) {
-        log.info("in ReservationService in findReservationsByBookId method");
-        return reservationRepository.findReservationsByBook(book);
-    }*/
 
     public void deleteAReservationById(Integer id) throws Exception {
         log.info("in ReservationService in deleteAReservationById method");

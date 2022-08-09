@@ -1,9 +1,6 @@
 package com.OC.p7v2api.mappers;
 
-import com.OC.p7v2api.dtos.StockDto;
 import com.OC.p7v2api.dtos.UserDto;
-import com.OC.p7v2api.entities.Borrow;
-import com.OC.p7v2api.entities.Stock;
 import com.OC.p7v2api.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,18 +1,15 @@
 package com.OC.p7v2api.mappers;
 
 import com.OC.p7v2api.dtos.BookSlimWithLibraryAndStockDto;
-import com.OC.p7v2api.dtos.ReservationDto;
-import com.OC.p7v2api.entities.*;
+import com.OC.p7v2api.entities.Book;
+import com.OC.p7v2api.entities.Library;
+import com.OC.p7v2api.entities.Stock;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 import java.util.List;
 
-@Mapper(componentModel = "spring")//,uses = {BorrowDtoMapper.class,ReservationDto.class}
+@Mapper(componentModel = "spring")
 public interface BookSlimWithLibraryAndStockDtoMapper {
     @Mapping(source = "book.id",target = "id")
     @Mapping(source = "book.title",target = "title")
@@ -24,6 +21,7 @@ public interface BookSlimWithLibraryAndStockDtoMapper {
     @Mapping(source ="book.numberOfReservation",target = "numberOfReservation")
     @Mapping(source ="book.maxReservationListSize",target = "maxReservationListSize")
     @Mapping(source = "stock.numberOfCopiesAvailable", target = "numberOfCopiesAvailable")
+    @Mapping(source = "stock.totalOfCopies", target = "totalOfCopies")
     @Mapping(source = "library.name",target = "libraryName")
 
     BookSlimWithLibraryAndStockDto bookToBookDto(Book book);

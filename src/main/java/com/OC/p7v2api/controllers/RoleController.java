@@ -1,6 +1,5 @@
 package com.OC.p7v2api.controllers;
 
-import com.OC.p7v2api.dtos.LibraryDto;
 import com.OC.p7v2api.dtos.RoleDto;
 import com.OC.p7v2api.entities.Role;
 import com.OC.p7v2api.mappers.RoleDtoMapper;

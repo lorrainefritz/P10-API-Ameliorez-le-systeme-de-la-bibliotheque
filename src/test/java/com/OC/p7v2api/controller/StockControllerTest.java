@@ -1,10 +1,8 @@
 package com.OC.p7v2api.controller;
 
 import com.OC.p7v2api.controllers.StockController;
-import com.OC.p7v2api.dtos.LibraryDto;
 import com.OC.p7v2api.dtos.StockDto;
 import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Library;
 import com.OC.p7v2api.entities.Stock;
 import com.OC.p7v2api.mappers.StockDtoMapper;
 import com.OC.p7v2api.services.StockService;

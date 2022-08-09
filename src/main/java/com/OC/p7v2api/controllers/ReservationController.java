@@ -1,7 +1,6 @@
 package com.OC.p7v2api.controllers;
 
 import com.OC.p7v2api.dtos.ReservationDto;
-import com.OC.p7v2api.dtos.UserDto;
 import com.OC.p7v2api.entities.Reservation;
 import com.OC.p7v2api.mappers.ReservationDtoMapper;
 import com.OC.p7v2api.services.ReservationService;
@@ -26,11 +25,10 @@ public class ReservationController {
 
 
     @GetMapping(value = "/reservations")
-    public ResponseEntity<List<ReservationDto>> findAllReservations(){
+    public ResponseEntity<List<ReservationDto>> findAllReservations() {
         log.info("HTTP GET request received at /reservations with findAllReservations");
         return new ResponseEntity<>(reservationDtoMapper.reservationsToAllReservationDto(reservationService.findAllReservations()), HttpStatus.OK);
     }
-
 
 
     @GetMapping(value = "/allReservations")
@@ -54,7 +52,7 @@ public class ReservationController {
 
     @PostMapping(value = "books/reservation")
     public ResponseEntity<Object> makeAReservation(@RequestParam Integer bookId, @RequestParam Integer userId) throws Exception {
-        log.info("HTTP POST request received at /books/reservation, where bookId is {} and userId is {}", bookId,userId);
+        log.info("HTTP POST request received at /books/reservation, where bookId is {} and userId is {}", bookId, userId);
         reservationService.makeAReservation(bookId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -56,12 +57,11 @@ public class Book {
     private String shelve;
 
 
-    //	@NotNull(message = "la date donnée ne doit pas être nulle")
-//	@Past(message = "la date donnée doit être passée")
+
     @Column(name="CREATION_DATE")
     private String creationDate;
 
-    /*@Column (name = "COVER", length= Integer.MAX_VALUE, nullable= true)*/
+
     @Column (name = "COVER")
     private String cover;
 

@@ -37,7 +37,6 @@ public class Borrow {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    /*@JoinColumn(name = "user_user_id")*/
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

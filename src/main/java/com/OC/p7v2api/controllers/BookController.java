@@ -5,18 +5,17 @@ import com.OC.p7v2api.entities.Book;
 import com.OC.p7v2api.entities.Library;
 import com.OC.p7v2api.entities.Stock;
 import com.OC.p7v2api.mappers.BookSlimWithLibraryAndStockDtoMapper;
-import com.OC.p7v2api.services.*;
+import com.OC.p7v2api.services.BookService;
+import com.OC.p7v2api.services.LibraryService;
+import com.OC.p7v2api.services.StockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

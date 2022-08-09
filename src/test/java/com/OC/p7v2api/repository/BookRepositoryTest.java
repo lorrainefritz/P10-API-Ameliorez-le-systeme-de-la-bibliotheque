@@ -3,21 +3,14 @@ package com.OC.p7v2api.repository;
 
 import com.OC.p7v2api.entities.*;
 import com.OC.p7v2api.repositories.BookRepository;
-import com.OC.p7v2api.repositories.LibraryRepository;
-import com.OC.p7v2api.repositories.StockRepository;
 import org.junit.After;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 public class BookRepositoryTest {

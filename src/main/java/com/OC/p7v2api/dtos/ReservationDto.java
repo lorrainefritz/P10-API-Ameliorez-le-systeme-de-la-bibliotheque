@@ -1,7 +1,5 @@
 package com.OC.p7v2api.dtos;
 
-import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

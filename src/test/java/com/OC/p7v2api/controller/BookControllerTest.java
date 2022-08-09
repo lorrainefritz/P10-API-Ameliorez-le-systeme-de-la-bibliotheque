@@ -6,18 +6,17 @@ import com.OC.p7v2api.entities.Book;
 import com.OC.p7v2api.entities.Library;
 import com.OC.p7v2api.entities.Stock;
 import com.OC.p7v2api.mappers.BookSlimWithLibraryAndStockDtoMapper;
-import com.OC.p7v2api.services.*;
+import com.OC.p7v2api.services.BookService;
+import com.OC.p7v2api.services.LibraryService;
+import com.OC.p7v2api.services.StockService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,14 +26,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.CoreMatchers.is;
 
 
 @ContextConfiguration(classes = {BookController.class})
@@ -109,7 +107,7 @@ public class BookControllerTest {
         Stock stock4 = new Stock(4, 2, 0, 2, true, book3);
         Book book4 = new Book(4, "Blackwater, tome 4 : La maison", "Michael McDowell", "Fantaisie", "summary", "MONSIEUR TOUSSAINT LOUVERTURE", "Français", "", "MCF04", "cover", library3, stock3, new ArrayList<>(), new ArrayList<>(), nearestDateOfReturn, 0, 4);
 
-        BookSlimWithLibraryAndStockDto bookDto = new BookSlimWithLibraryAndStockDto(1,"Blackwater, tome 1 : La Digue","Michael McDowell","MONSIEUR TOUSSAINT LOUVERTURE","Fantastique","summary",2,"Katzenheim Nord",nearestDateOfReturn,0,4);
+        BookSlimWithLibraryAndStockDto bookDto = new BookSlimWithLibraryAndStockDto(1,"Blackwater, tome 1 : La Digue","Michael McDowell","MONSIEUR TOUSSAINT LOUVERTURE","Fantastique","summary",2,2,"Katzenheim Nord",nearestDateOfReturn,0,4);
 
         String bookDtoWriteAsAString = (new ObjectMapper()).writeValueAsString(bookDto);
 
@@ -135,7 +133,7 @@ public class BookControllerTest {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "{\"id\":1,\"title\":\"Blackwater, tome 1 : La Digue\",\"author\":\"Michael McDowell\",\"publisher\":\"MONSIEUR TOUSSAINT LOUVERTURE\",\"type\":\"Fantastique\",\"summary\":\"summary\","
-                                        + "\"numberOfCopiesAvailable\":2,\"libraryName\":\"Katzenheim Nord\",\"nearestReturnDate\":1656799200000,\"numberOfReservation"
+                                        + "\"numberOfCopiesAvailable\":2,\"totalOfCopies\":2,\"libraryName\":\"Katzenheim Nord\",\"nearestReturnDate\":1656799200000,\"numberOfReservation"
                                         + "\":0,\"maxReservationListSize\":4}"));
     }
 

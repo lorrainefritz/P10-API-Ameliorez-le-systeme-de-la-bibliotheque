@@ -1,22 +1,17 @@
 package com.OC.p7v2api.services;
 
 import com.OC.p7v2api.entities.Book;
-import com.OC.p7v2api.entities.Borrow;
 import com.OC.p7v2api.entities.Reservation;
 import com.OC.p7v2api.repositories.BookRepository;
-import com.OC.p7v2api.repositories.BorrowRepository;
 import com.OC.p7v2api.util.BookIdComparator;
-import com.OC.p7v2api.util.BorrowReturnDatesComparator;
 import com.OC.p7v2api.util.ReservationIdsComparator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
